@@ -1,5 +1,6 @@
 @extends('admin.admin_dashboard')
 @section('admin')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <div class="page-content">
 
         <div class="row profile-body">
@@ -55,28 +56,42 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <h6 class="card-title">Basic Form</h6>
+                        <h6 class="card-title">Update Admin Profile</h6>
 
                         <form class="forms-sample">
                             <div class="mb-3">
-                                <label for="exampleInputUsername1" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="exampleInputUsername1" autocomplete="off"
-                                    placeholder="Username">
+                                <label for="Username" class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username"
+                                    value="{{ $profileData->username }}" autocomplete="off">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="name" value="{{ $profileData->name }}"
+                                    autocomplete="off">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" autocomplete="off"
-                                    placeholder="Password">
+                                <label for="email" class="form-label">Email address</label>
+                                <input type="email" class="form-control" name="email" value="{{ $profileData->email }}">
                             </div>
-                            <div class="form-check mb-3">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">
-                                    Remember me
-                                </label>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" name="phone" value="{{ $profileData->phone }}"
+                                    autocomplete="off">
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" name="address"
+                                    value="{{ $profileData->address }}" autocomplete="off">
+                            </div>
+                            <div class="mb-3">
+                                <label for="photo" class="form-label">Photo</label>
+                                <input type="file" class="form-control" id="image" name="photo" autocomplete="off">
+                            </div>
+                            <div class="mb-3">
+                                <label for="photo" class="form-label"></label>
+                                <img id="showImage" class="wd-80 rounded-circle"
+                                    src="{{ !empty($profileData->photo) ? url('upload/admin_images/' . $profileData->photo) : url('upload/no_image.jpg') }}"
+                                    alt="profile">
                             </div>
                             <button type="submit" class="btn btn-primary me-2">Submit</button>
                             <button class="btn btn-secondary">Cancel</button>
@@ -89,4 +104,16 @@
         </div>
 
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#image').change(function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#showImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(e.target.files['0']);
+            });
+        });
+    </script>
 @endsection
