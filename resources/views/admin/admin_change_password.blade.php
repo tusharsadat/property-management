@@ -58,7 +58,8 @@
 
                         <h6 class="card-title">Admin Change Password</h6>
 
-                        <form class="forms-sample">
+                        <form method="POST" action="{{ route('admin.update.password') }}" class="forms-sample">
+                            @csrf
                             <div class="mb-3">
                                 <label for="password" class="form-label">Old Password</label>
                                 <input type="password" class="form-control @error('old_password') is-invalid @enderror"
@@ -70,7 +71,7 @@
                             <div class="mb-3">
                                 <label for="password" class="form-label">New Password</label>
                                 <input type="password" class="form-control @error('new_password') is-invalid @enderror"
-                                    name="name" id="new_password" autocomplete="off">
+                                    name="new_password" id="new_password" autocomplete="off">
                                 @error('new_password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
