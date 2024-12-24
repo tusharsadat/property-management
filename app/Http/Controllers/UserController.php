@@ -42,6 +42,11 @@ class UserController extends Controller
         }
         $data->save();
 
-        return redirect()->back();
+        $notification = array(
+            'message' => 'User Profile Updated Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
     } // End Method 
 }
