@@ -57,28 +57,50 @@
                                         </div>
                                     </form>
                                     <div class="othre-text">
-                                        <p>Have not any account? <a href="signup.html">Register Now</a></p>
+                                        <p>Have not any account? <a href="#">Register Now</a></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="tab" id="tab-2">
                                 <div class="inner-box">
                                     <h4>Sign in</h4>
-                                    <form action="signin.html" method="post" class="default-form">
+                                    <form method="POST" action="{{ route('register') }}" class="default-form">
+                                        @csrf
+                                        <!-- Name -->
                                         <div class="form-group">
                                             <label>User name</label>
-                                            <input type="text" name="name" required="">
+                                            <input type="text" name="name" id="name"
+                                                class="form-control @error('name') is-invalid @enderror" required="">
+                                            @error('name')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
+                                        <!-- Email Address -->
                                         <div class="form-group">
                                             <label>Email address</label>
-                                            <input type="email" name="email" required="">
+                                            <input type="email" name="email" id="email"
+                                                class="form-control @error('email') is-invalid @enderror" required="">
+                                            @error('email')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
+                                        <!-- Password -->
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" name="name" required="">
+                                            <input type="password" name="password" id="password"
+                                                class="form-control @error('password') is-invalid @enderror" required="">
+                                            @error('password')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- Confirm Password -->
+                                        <div class="form-group">
+                                            <label>Confirm Password</label>
+                                            <input type="password" name="password_confirmation" id="password_confirmation"
+                                                required="">
                                         </div>
                                         <div class="form-group message-btn">
-                                            <button type="submit" class="theme-btn btn-one">Sign in</button>
+                                            <button type="submit" class="theme-btn btn-one">Register</button>
                                         </div>
                                     </form>
                                     <div class="othre-text">
