@@ -7,7 +7,7 @@
 
             <li class="current"> <a href="blog-details.html"><i class="fab fa fa-envelope "></i>
                     Dashboard </a></li>
-            <li><a href="blog-details.html"><i class="fa fa-cog" aria-hidden="true"></i>
+            <li><a href="{{ route('user.profile') }}"><i class="fa fa-cog" aria-hidden="true"></i>
                     Settings</a></li>
             <li><a href="blog-details.html"><i class="fa fa-credit-card" aria-hidden="true"></i> Buy
                     credits<span class="badge badge-info">( 10 credits)</span></a></li>
