@@ -4,7 +4,7 @@
 
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <a href="" class="btn btn-info">Add property type</a>
+                <a href="{{ route('add.type') }}" class="btn btn-info">Add property type</a>
             </ol>
         </nav>
 
