@@ -39,6 +39,10 @@
     <!-- Toastr styles -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
     <!-- End Toastr styles -->
+
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css') }}">
+    <!-- End plugin css for this page -->
 </head>
 
 <link rel="stylesheet" href="{{ asset('backend/assets/fonts/feather-font/css/iconfont.css') }}">
@@ -107,6 +111,12 @@
         @endif
     </script>
     <!-- End Toastr js for this page -->
+
+    <!-- Start datatables -->
+    <script src="{{ asset('backend/assets/vendors/datatables.net/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/data-table.js') }}"></script>
+    <!-- End datatables -->
 
 
 </body>
