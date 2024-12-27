@@ -135,4 +135,14 @@ class PropertyTypeController extends Controller
         );
         return redirect()->route('all.amenitie')->with($notification);
     } // End Method 
+
+    public function DeleteAmenitie($id)
+    {
+        Amenities::findOrFail($id)->delete();
+        $notification = array(
+            'message' => 'Amenities Deleted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    } // End Method 
 }

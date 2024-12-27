@@ -82,5 +82,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/store/amenitie', 'StoreAmenitie')->name('store.amenitie');
         Route::get('/edit/amenitie/{id}', 'EditAmenitie')->name('edit.amenitie');
         Route::put('/update/amenitie', 'UpdateAmenitie')->name('update.amenitie');
+        Route::delete('/delete/amenitie/{id}', 'DeleteAmenitie')->name('delete.amenitie');
     });
 }); // End Group Admin Middleware

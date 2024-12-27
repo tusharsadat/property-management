@@ -29,7 +29,16 @@
                                             <td>
                                                 <a href="{{ route('edit.amenitie', $item->id) }}"
                                                     class="btn btn-inverse-warning"> Edit </a>
-                                                <a href="" class="btn btn-inverse-danger" id="delete"> Delete </a>
+                                                {{-- <a href="{{ route('delete.amenitie', $item->id) }}"
+                                                    class="btn btn-inverse-danger" id="delete"> Delete </a> --}}
+
+                                                <form action="{{ route('delete.amenitie', $item->id) }}" method="POST"
+                                                    style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-inverse-danger"
+                                                        id="delete-btn">Delete</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach

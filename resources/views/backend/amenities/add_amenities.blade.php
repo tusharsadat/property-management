@@ -17,7 +17,6 @@
                                     <input type="text" name="amenities_name" class="form-control">
                                 </div>
 
-
                                 <button type="submit" class="btn btn-primary me-2">Save Changes </button>
 
                             </form>
