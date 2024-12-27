@@ -22,16 +22,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Amenities Name</td>
-                                        <td>
-                                            <a href="" class="btn btn-inverse-warning"> Edit </a>
-                                            <a href="" class="btn btn-inverse-danger" id="delete"> Delete </a>
-                                        </td>
-                                    </tr>
-
+                                    @foreach ($amenities as $key => $item)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $item->amenities_name }}</td>
+                                            <td>
+                                                <a href="" class="btn btn-inverse-warning"> Edit </a>
+                                                <a href="" class="btn btn-inverse-danger" id="delete"> Delete </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

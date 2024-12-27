@@ -9,12 +9,12 @@
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">Add Amenities </h6>
-                            <form id="myForm" method="POST" action="{{ route('store.type') }}" class="forms-sample">
+                            <form id="myForm" method="POST" action="{{ route('store.amenitie') }}" class="forms-sample">
                                 @csrf
 
                                 <div class="form-group mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Amenities Name </label>
-                                    <input type="text" name="amenitis_name" class="form-control">
+                                    <input type="text" name="amenities_name" class="form-control">
                                 </div>
 
 
@@ -32,16 +32,28 @@
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
-                    amenitis_name: {
+                    amenities_name: {
                         required: true,
+                        maxlength: 200,
+                        remote: {
+                            url: "/check-amenities-name",
+                            type: "post",
+                            data: {
+                                amenitis_name: function() {
+                                    return $('#amenities_name').val(); // Fetch the input value
+                                },
+                                _token: $('meta[name="csrf-token"]').attr(
+                                    'content') // Fetch CSRF token from meta tag
+                            }
+                        }
                     },
-
                 },
                 messages: {
-                    amenitis_name: {
+                    amenities_name: {
                         required: 'Please Enter Amenities Name',
+                        maxlength: 'Amenities name must not exceed 200 characters',
+                        remote: 'This amenities name is already taken',
                     },
-
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {

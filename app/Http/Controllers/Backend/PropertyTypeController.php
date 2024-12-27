@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Amenities;
 use App\Models\PropertyType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class PropertyTypeController extends Controller
@@ -83,5 +84,30 @@ class PropertyTypeController extends Controller
     public function AddAmenitie()
     {
         return view('backend.amenities.add_amenities');
+    } // End Method 
+
+    public function checkAmenitiesName(Request $request)
+    {
+        $exists = DB::table('amenities')->where('amenities_name', $request->amenities_name)->exists();
+
+        return response()->json(!$exists); // Return true if not exists, false if it exists
+    } // End Method
+
+    public function StoreAmenitie(Request $request)
+    {
+
+        //Validation 
+        $request->validate([
+            'amenities_name' => 'required|unique:amenities|max:200',
+        ]);
+
+        Amenities::insert([
+            'amenities_name' => $request->amenities_name,
+        ]);
+        $notification = array(
+            'message' => 'Amenities Create Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('all.amenitie')->with($notification);
     } // End Method 
 }
