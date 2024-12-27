@@ -110,4 +110,29 @@ class PropertyTypeController extends Controller
         );
         return redirect()->route('all.amenitie')->with($notification);
     } // End Method 
+
+    public function EditAmenitie($id)
+    {
+        $amenities = Amenities::findOrFail($id);
+        return view('backend.amenities.edit_amenities', compact('amenities'));
+    } // End Method 
+
+    public function UpdateAmenitie(Request $request)
+    {
+        //Validation 
+        $request->validate([
+            'amenities_name' => 'required|unique:amenities|max:200',
+        ]);
+
+        $ame_id = $request->id;
+
+        Amenities::findOrFail($ame_id)->update([
+            'amenities_name' => $request->amenities_name,
+        ]);
+        $notification = array(
+            'message' => 'Amenities Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('all.amenitie')->with($notification);
+    } // End Method 
 }
