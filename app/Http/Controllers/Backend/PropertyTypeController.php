@@ -79,4 +79,9 @@ class PropertyTypeController extends Controller
         $amenities = Amenities::latest()->get();
         return view('backend.amenities.all_amenities', compact('amenities'));
     } // End Method 
+
+    public function AddAmenitie()
+    {
+        return view('backend.amenities.add_amenities');
+    } // End Method 
 }

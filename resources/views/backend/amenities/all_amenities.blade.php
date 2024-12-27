@@ -3,7 +3,7 @@
     <div class="page-content">
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <a href="" class="btn btn-inverse-info"> Add Amenities </a>
+                <a href="{{ route('add.amenitie') }}" class="btn btn-inverse-info"> Add Amenities </a>
             </ol>
         </nav>
         <div class="row">

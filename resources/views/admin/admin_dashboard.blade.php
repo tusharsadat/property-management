@@ -123,6 +123,10 @@
     <script src="{{ asset('backend/assets/js/code/code.js') }}"></script>
     <!-- End Sweetalert -->
 
+    <!-- Start validate js -->
+    <script src="{{ asset('backend/assets/js/code/validate.min.js') }}"></script>
+    <!-- End validate js -->
+
 </body>
 
 </html>
