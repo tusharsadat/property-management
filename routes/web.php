@@ -89,5 +89,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Property All Route 
     Route::controller(PropertyController::class)->group(function () {
         Route::get('/all/property', 'AllProperty')->name('all.property');
+        Route::get('/add/property', 'AddProperty')->name('add.property');
     });
 }); // End Group Admin Middleware
