@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Backend\PropertyTypeController;
 
 /*
@@ -83,5 +84,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/edit/amenitie/{id}', 'EditAmenitie')->name('edit.amenitie');
         Route::put('/update/amenitie', 'UpdateAmenitie')->name('update.amenitie');
         Route::delete('/delete/amenitie/{id}', 'DeleteAmenitie')->name('delete.amenitie');
+    });
+
+    // Property All Route 
+    Route::controller(PropertyController::class)->group(function () {
+        Route::get('/all/property', 'AllProperty')->name('all.property');
     });
 }); // End Group Admin Middleware
