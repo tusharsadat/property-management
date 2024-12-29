@@ -9,16 +9,17 @@
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">Add Property </h6>
-                            <form>
+                            <form method="post" action="" id="myForm" enctype="multipart/form-data">
+                                @csrf
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Property Name </label>
                                             <input type="text" name="property_name" class="form-control">
                                         </div>
                                     </div><!-- Col -->
                                     <div class="col-sm-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Property Status</label>
                                             <select name="property_status" class="form-select"
                                                 id="exampleFormControlSelect1">
@@ -29,31 +30,35 @@
                                         </div>
                                     </div><!-- Col -->
                                     <div class="col-sm-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Lowest Price </label>
                                             <input type="text" name="lowest_price" class="form-control">
                                         </div>
                                     </div><!-- Col -->
                                     <div class="col-sm-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Max Price </label>
                                             <input type="text" name="max_price" class="form-control">
                                         </div>
                                     </div><!-- Col -->
                                     <div class="col-sm-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Main Thambnail </label>
                                             <input type="file" name="property_thambnail" class="form-control"
                                                 onChange="mainThamUrl(this)">
+
                                             <img src="" id="mainThmb">
+
                                         </div>
                                     </div><!-- Col -->
                                     <div class="col-sm-6">
-                                        <div class="mb-3">
+                                        <div class="form-group mb-3">
                                             <label class="form-label">Multiple Image </label>
                                             <input type="file" name="multi_img[]" class="form-control" id="multiImg"
                                                 multiple="">
+
                                             <div class="row" id="preview_img"> </div>
+
                                         </div>
                                     </div><!-- Col -->
                                 </div><!-- Row -->
@@ -82,6 +87,7 @@
                                             <input type="text" name="garage_size" class="form-control">
                                         </div>
                                     </div><!-- Col -->
+
                                 </div><!-- Row -->
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -108,12 +114,13 @@
                                             <input type="text" name="postal_code" class="form-control">
                                         </div>
                                     </div><!-- Col -->
+
                                 </div><!-- Row -->
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label class="form-label">Property Size</label>
-                                            <input type="email" name="property_size" class="form-control">
+                                            <input type="text" name="property_size" class="form-control">
                                         </div>
                                     </div><!-- Col -->
                                     <div class="col-sm-4">
@@ -164,8 +171,10 @@
                                             <label class="form-label">Property Amenities </label>
                                             <select name="amenities_id[]" class="js-example-basic-multiple form-select"
                                                 multiple="multiple" data-width="100%">
+
                                                 @foreach ($amenities as $ameni)
-                                                    <option value="{{ $ameni->id }}">{{ $ameni->amenitis_name }}
+                                                    <option value="{{ $ameni->amenities_name }}">
+                                                        {{ $ameni->amenities_name }}
                                                     </option>
                                                 @endforeach
 
@@ -187,18 +196,20 @@
                                 <div class="col-sm-12">
                                     <div class="mb-3">
                                         <label class="form-label">Short Description</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                        <textarea name="short_descp" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 
                                     </div>
                                 </div><!-- Col -->
                                 <div class="col-sm-12">
                                     <div class="mb-3">
                                         <label class="form-label">Long Description</label>
-                                        <textarea class="form-control" name="tinymce" id="tinymceExample" rows="10"></textarea>
+
+                                        <textarea name="long_descp" class="form-control" name="tinymce" id="tinymceExample" rows="10"></textarea>
 
                                     </div>
                                 </div><!-- Col -->
                                 <hr>
+
                                 <div class="mb-3">
                                     <div class="form-check form-check-inline">
                                         <input type="checkbox" name="featured" value="1" class="form-check-input"
@@ -207,7 +218,6 @@
                                             Features Property
                                         </label>
                                     </div>
-
                                     <div class="form-check form-check-inline">
                                         <input type="checkbox" name="hot" value="1" class="form-check-input"
                                             id="checkInline">
@@ -217,7 +227,9 @@
                                     </div>
                                 </div>
 
+
                                 <!--   //////////// Facilities Option /////////////// -->
+
                                 <div class="row add_item">
                                     <div class="col-md-4">
                                         <div class="mb-3">
@@ -251,8 +263,10 @@
                                     </div>
                                 </div> <!---end row-->
 
+                                <button type="submit" class="btn btn-primary">Save Changes </button>
+
                             </form>
-                            <button type="button" class="btn btn-primary submit">Save Changes</button>
+
                         </div>
                     </div>
                 </div>
@@ -299,6 +313,7 @@
             </div>
         </div>
     </div>
+
     <!----For Section-------->
     <script type="text/javascript">
         $(document).ready(function() {
@@ -316,19 +331,43 @@
     </script>
     <!--========== End of add multiple class with ajax ==============-->
 
-
     <script type="text/javascript">
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
-                    amenitis_name: {
+                    property_name: {
+                        required: true,
+                    },
+                    property_status: {
+                        required: true,
+                    },
+                    lowest_price: {
+                        required: true,
+                    },
+                    max_price: {
+                        required: true,
+                    },
+                    ptype_id: {
                         required: true,
                     },
 
+
                 },
                 messages: {
-                    amenitis_name: {
-                        required: 'Please Enter Amenities Name',
+                    property_name: {
+                        required: 'Please Enter Property Name',
+                    },
+                    property_status: {
+                        required: 'Please Select Property Status',
+                    },
+                    lowest_price: {
+                        required: 'Please Enter Lowest Price',
+                    },
+                    max_price: {
+                        required: 'Please Enter Max Price',
+                    },
+                    ptype_id: {
+                        required: 'Please Select Property Type',
                     },
 
                 },
@@ -347,6 +386,7 @@
         });
     </script>
 
+
     <script type="text/javascript">
         function mainThamUrl(input) {
             if (input.files && input.files[0]) {
@@ -358,6 +398,8 @@
             }
         }
     </script>
+
+
     <script>
         $(document).ready(function() {
             $('#multiImg').on('change', function() { //on file input change
