@@ -88,5 +88,31 @@ class PropertyController extends Controller
             'property_thambnail' => $save_url,
             'created_at' => Carbon::now(),
         ]);
+
+        /// Multiple Image Upload From Here ////
+
+        $images = $request->file('multi_img');
+
+        foreach ($images as $img) {
+            // create image manager with desired driver
+            $manager = new ImageManager(new Driver());
+            // read image from file system
+            $images = $manager->read($getimage);
+            $make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
+            $images->resize(770, 520);
+            $path = base_path('upload/property/multi-image/');
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true); // Create directory with write permissions
+            }
+            $images->toJpeg(100)->save(base_path('upload/property/multi-image/' . $make_name));
+            $uploadPath = 'upload/property/multi-image/' . $make_name;
+
+            MultiImage::insert([
+                'property_id' => $property_id,
+                'photo_name' => $uploadPath,
+                'created_at' => Carbon::now(),
+            ]);
+        } // End Foreach
+        /// End Multiple Image Upload From Here ////
     }
 }
