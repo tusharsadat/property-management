@@ -279,7 +279,7 @@
         <div class="whole_extra_item_add" id="whole_extra_item_add">
             <div class="whole_extra_item_delete" id="whole_extra_item_delete">
                 <div class="container mt-2">
-                    <div class="row">
+                    <div class="row" style="margin-bottom: 20px">
 
                         <div class="form-group col-md-4">
                             <label for="facility_name">Facilities</label>
