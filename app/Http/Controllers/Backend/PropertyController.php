@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Facility;
 use App\Models\Property;
 use App\Models\Amenities;
 use App\Models\MultiImage;
@@ -48,12 +49,12 @@ class PropertyController extends Controller
         // resize image proportionally to 300px width
         $image->resize(370, 250);
 
-        $path = base_path('upload/property/thambnail/');
-        if (!file_exists($path)) {
-            mkdir($path, 0755, true); // Create directory with write permissions
-        }
+        // $path = base_path('upload/property/thambnail/');
+        // if (!file_exists($path)) {
+        //     mkdir($path, 0755, true); // Create directory with write permissions
+        // }
 
-        $image->toJpeg(80)->save(base_path('upload/property/thambnail/' . $name_gen));
+        $image->toJpeg(80)->save(public_path('upload/property/thambnail/' . $name_gen));
 
         $save_url = 'upload/property/thambnail/' . $name_gen;
 
@@ -100,11 +101,13 @@ class PropertyController extends Controller
             $images = $manager->read($getimage);
             $make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
             $images->resize(770, 520);
-            $path = base_path('upload/property/multi-image/');
-            if (!file_exists($path)) {
-                mkdir($path, 0755, true); // Create directory with write permissions
-            }
-            $images->toJpeg(100)->save(base_path('upload/property/multi-image/' . $make_name));
+
+            // $path = base_path('upload/property/multi-image/');
+            // if (!file_exists($path)) {
+            //     mkdir($path, 0755, true); // Create directory with write permissions
+            // }
+
+            $images->toJpeg(100)->save(public_path('upload/property/multi-image/' . $make_name));
             $uploadPath = 'upload/property/multi-image/' . $make_name;
 
             MultiImage::insert([
@@ -114,5 +117,23 @@ class PropertyController extends Controller
             ]);
         } // End Foreach
         /// End Multiple Image Upload From Here ////
-    }
+
+        /// Facilities Add From Here ////
+        $facilities = Count($request->facility_name);
+        if ($facilities != NULL) {
+            for ($i = 0; $i < $facilities; $i++) {
+                $fcount = new Facility();
+                $fcount->property_id = $property_id;
+                $fcount->facility_name = $request->facility_name[$i];
+                $fcount->distance = $request->distance[$i];
+                $fcount->save();
+            }
+        }
+        /// End Facilities  ////
+        $notification = array(
+            'message' => 'Property Inserted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('all.property')->with($notification);
+    } //End Mathod
 }
