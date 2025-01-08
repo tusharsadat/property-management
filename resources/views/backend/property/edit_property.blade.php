@@ -11,8 +11,7 @@
                         <div class="card-body">
                             <h6 class="card-title">Edit Property </h6>
 
-                            <form method="post" action="{{ route('store.property') }}" id="myForm"
-                                enctype="multipart/form-data">
+                            <form method="post" action="" id="myForm" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -28,8 +27,12 @@
                                             <select name="property_status" class="form-select"
                                                 id="exampleFormControlSelect1">
                                                 <option selected="" disabled="">Select Status</option>
-                                                <option value="rent">For Rent</option>
-                                                <option value="buy">For Buy</option>
+                                                <option
+                                                    value="rent"{{ $property->property_status == 'rent' ? 'selected' : '' }}>
+                                                    For Rent</option>
+                                                <option
+                                                    value="buy"{{ $property->property_status == 'buy' ? 'selected' : '' }}>
+                                                    For Buy</option>
                                             </select>
                                         </div>
                                     </div><!-- Col -->
@@ -160,7 +163,9 @@
                                             <select name="ptype_id" class="form-select" id="exampleFormControlSelect1">
                                                 <option selected="" disabled="">Select Type</option>
                                                 @foreach ($propertytype as $ptype)
-                                                    <option value="{{ $ptype->id }}">{{ $ptype->type_name }}</option>
+                                                    <option
+                                                        value="{{ $ptype->id }}"{{ $ptype->id == $property->ptype_id ? 'selected' : '' }}>
+                                                        {{ $ptype->type_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -171,8 +176,9 @@
                                             <select name="amenities_id[]" class="js-example-basic-multiple form-select"
                                                 multiple="multiple" data-width="100%">
                                                 @foreach ($amenities as $ameni)
-                                                    <option value="{{ $ameni->id }}">{{ $ameni->amenitis_name }}
-                                                    </option>
+                                                    <option value="{{ $ameni->amenities_name }}"
+                                                        {{ in_array($ameni->amenities_name, $property_ami) ? 'selected' : '' }}>
+                                                        {{ $ameni->amenities_name }}</option>
                                                 @endforeach
 
                                             </select>
@@ -184,7 +190,9 @@
                                             <select name="agent_id" class="form-select" id="exampleFormControlSelect1">
                                                 <option selected="" disabled="">Select Agent</option>
                                                 @foreach ($activeAgent as $agent)
-                                                    <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                                                    <option value="{{ $agent->id }}"
+                                                        {{ $agent->id == $property->agent_id ? 'selected' : '' }}>
+                                                        {{ $agent->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -212,7 +220,7 @@
                                 <div class="mb-3">
                                     <div class="form-check form-check-inline">
                                         <input type="checkbox" name="featured" value="1" class="form-check-input"
-                                            id="checkInline1">
+                                            id="checkInline1" {{ $property->featured == '1' ? 'checked' : '' }}>
                                         <label class="form-check-label" for="checkInline1">
                                             Features Property
                                         </label>
@@ -220,7 +228,7 @@
 
                                     <div class="form-check form-check-inline">
                                         <input type="checkbox" name="hot" value="1" class="form-check-input"
-                                            id="checkInline">
+                                            id="checkInline" {{ $property->hot == '1' ? 'checked' : '' }}>
                                         <label class="form-check-label" for="checkInline">
                                             Hot Property
                                         </label>
