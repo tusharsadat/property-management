@@ -191,4 +191,34 @@ class PropertyController extends Controller
         );
         return redirect()->route('all.property')->with($notification);
     } // End Method
+
+    public function UpdatePropertyThambnail(Request $request)
+    {
+        $pro_id = $request->id;
+        $oldImage = $request->old_img;
+        $getimage = $request->file('property_thambnail');
+        // create image manager with desired driver
+        $manager = new ImageManager(new Driver());
+        $name_gen = hexdec(uniqid()) . '.' . $getimage->getClientOriginalExtension();
+        // read image from file system
+        $image = $manager->read($getimage);
+        // resize image proportionally to 300px width
+        $image->resize(370, 250);
+        $save_url = 'upload/property/thambnail/' . $name_gen;
+
+        $image->toJpeg(80)->save(public_path('upload/property/thambnail/' . $name_gen));
+
+        if (file_exists($oldImage)) {
+            unlink($oldImage);
+        }
+        Property::findOrFail($pro_id)->update([
+            'property_thambnail' => $save_url,
+            'updated_at' => Carbon::now(),
+        ]);
+        $notification = array(
+            'message' => 'Property Image Thambnail Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    } // End Method
 }

@@ -259,7 +259,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">Edit Main Thambnail Image </h6>
-                            <form method="post" action="{{ route('update.property') }}" id="myForm"
+                            <form method="post" action="{{ route('update.property.thambnail') }}" id="myForm"
                                 enctype="multipart/form-data">
                                 @csrf
 
