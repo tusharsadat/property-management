@@ -14,6 +14,7 @@
                             <form method="post" action="{{ route('update.property') }}" id="myForm"
                                 enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT')
 
                                 <input type="hidden" name="id" value="{{ $property->id }}">
 
@@ -262,7 +263,7 @@
                             <form method="post" action="{{ route('update.property.thambnail') }}" id="myForm"
                                 enctype="multipart/form-data">
                                 @csrf
-
+                                @method('patch')
                                 <input type="hidden" name="id" value="{{ $property->id }}">
                                 <input type="hidden" name="old_img" value="{{ $property->property_thambnail }}">
 
@@ -308,9 +309,10 @@
                         <div class="card-body">
                             <h6 class="card-title">Edit Multi Image </h6>
 
-                            <form method="post" action="{{ route('update.property.thambnail') }}" id="myForm"
+                            <form method="post" action="{{ route('update.property.multiimage') }}" id="myForm"
                                 enctype="multipart/form-data">
                                 @csrf
+                                @method('put')
                                 <div class="table-responsive">
                                     <table class="table table-striped">
                                         <thead>
@@ -332,7 +334,8 @@
                                                     </td>
 
                                                     <td>
-                                                        <input type="file" class="form-group" name="multi_img">
+                                                        <input type="file" class="form-control"
+                                                            name="multi_img[{{ $img->id }}]">
                                                     </td>
                                                     <td>
                                                         <input type="submit" class="btn btn-primary px-4"
@@ -346,9 +349,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-
-                                <br><br>
-                                <button type="submit" class="btn btn-primary">Save Changes </button>
                             </form>
                         </div>
                     </div>

@@ -93,8 +93,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/store/property', 'StoreProperty')->name('store.property');
 
         Route::get('/edit/property/{id}', 'EditProperty')->name('edit.property');
-        Route::post('/update/property', 'UpdateProperty')->name('update.property');
+        Route::put('/update/property', 'UpdateProperty')->name('update.property');
 
-        Route::post('/update/property/thambnail', 'UpdatePropertyThambnail')->name('update.property.thambnail');
+        Route::patch('/update/property/thambnail', 'UpdatePropertyThambnail')->name('update.property.thambnail');
+        Route::put('/update/property/multiimage', 'UpdatePropertyMultiimage')->name('update.property.multiimage');
     });
 }); // End Group Admin Middleware

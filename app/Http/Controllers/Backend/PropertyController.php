@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Decoders\FilePathImageDecoder;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class PropertyController extends Controller
@@ -92,21 +93,15 @@ class PropertyController extends Controller
 
         /// Multiple Image Upload From Here ////
 
-        $images = $request->file('multi_img');
+        $multiImages = $request->file('multi_img');
 
-        foreach ($images as $img) {
+        foreach ($multiImages as $img) {
             // create image manager with desired driver
             $manager = new ImageManager(new Driver());
             // read image from file system
-            $images = $manager->read($getimage);
+            $images = $manager->read($img);
             $make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
             $images->resize(770, 520);
-
-            // $path = base_path('upload/property/multi-image/');
-            // if (!file_exists($path)) {
-            //     mkdir($path, 0755, true); // Create directory with write permissions
-            // }
-
             $images->toJpeg(100)->save(public_path('upload/property/multi-image/' . $make_name));
             $uploadPath = 'upload/property/multi-image/' . $make_name;
 
@@ -222,4 +217,61 @@ class PropertyController extends Controller
         );
         return redirect()->back()->with($notification);
     } // End Method
+
+    public function UpdatePropertyMultiimage(Request $request)
+    {
+        // Retrieve the uploaded multi-images
+        $multiImages = $request->file('multi_img');
+
+        // Check if $multiImages is empty
+        if (empty($multiImages)) {
+            // Image is empty or not provided, return with error message
+            $notification = [
+                'message' => 'Image cannot be empty',
+                'alert-type' => 'error'
+            ];
+
+            return redirect()->back()->with($notification);
+        }
+
+        // Iterate over each uploaded image
+        foreach ($multiImages as $id => $img) {
+            // Find the multi-image record by ID
+            $imgDel = MultiImage::findOrFail($id);
+
+            // Delete the old image file from storage
+            if (file_exists(public_path($imgDel->photo_name))) {
+                unlink(public_path($imgDel->photo_name));
+            }
+
+            // Create an image manager with desired driver
+            $manager = new ImageManager(new Driver());
+
+            // Read the current image from the file
+            $image = $manager->read($img);
+
+            // Generate a unique filename for the image
+            $make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
+
+            // Resize and save the image
+            $image->resize(770, 520)->save(public_path('upload/property/multi-image/' . $make_name), 100);
+
+            // Define the upload path for the new image
+            $uploadPath = 'upload/property/multi-image/' . $make_name;
+
+            // Update the multi-image record with the new image path and timestamp
+            MultiImage::where('id', $id)->update([
+                'photo_name' => $uploadPath,
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+
+        // Set the success notification
+        $notification = [
+            'message' => 'Property Multi Image Updated Successfully',
+            'alert-type' => 'success'
+        ];
+
+        return redirect()->back()->with($notification);
+    }
 }
