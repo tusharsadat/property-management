@@ -97,5 +97,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
         Route::patch('/update/property/thambnail', 'UpdatePropertyThambnail')->name('update.property.thambnail');
         Route::put('/update/property/multiimage', 'UpdatePropertyMultiimage')->name('update.property.multiimage');
+
+        Route::delete('/property/multiimg/delete/{id}', 'PropertyMultiImageDelete')->name('property.multiimg.delete');
     });
 }); // End Group Admin Middleware

@@ -326,7 +326,7 @@
                                         <tbody>
 
                                             @foreach ($multiImage as $key => $img)
-                                                <tr>
+                                                <tr id="image-row-{{ $img->id }}">
                                                     <td>{{ $key + 1 }}</td>
                                                     <td class="py-1">
                                                         <img src="{{ asset($img->photo_name) }}" alt="image"
@@ -340,8 +340,9 @@
                                                     <td>
                                                         <input type="submit" class="btn btn-primary px-4"
                                                             value="Update Image">
-                                                        <a href="" class="btn btn-danger" id="delete">Delete
-                                                        </a>
+                                                        <button type="button" class="btn btn-danger"
+                                                            onclick="deleteImage({{ $img->id }})">Delete</button>
+
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -454,5 +455,55 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        function deleteImage(imageId) {
+            // SweetAlert Confirmation
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Do you really want to delete this record?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // AJAX DELETE request
+                    fetch("{{ url('property/multiimg/delete') }}/" + imageId, {
+                            method: "DELETE",
+                            headers: {
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                "Content-Type": "application/json",
+                            },
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.success) {
+                                // Toastr success notification
+                                toastr.success(data.message);
+
+                                // Dynamically remove the row without page refresh
+                                const row = document.querySelector(`#image-row-${imageId}`);
+                                if (row) {
+                                    row.remove();
+                                    // For better user experience, add feedback
+                                    console.log("Row removed successfully!");
+                                } else {
+                                    console.error("Row with specified ID not found!");
+                                }
+                            } else {
+                                // Show error notification
+                                toastr.error(data.message);
+                            }
+                        })
+                        .catch((error) => {
+                            toastr.error("Something went wrong while deleting!");
+                            console.error("Error during AJAX request: ", error);
+                        });
+                }
+            });
+        }
     </script>
 @endsection
