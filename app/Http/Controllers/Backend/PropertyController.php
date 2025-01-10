@@ -292,4 +292,31 @@ class PropertyController extends Controller
             'message' => 'Image deleted successfully!'
         ]);
     } // End Method 
+
+    public function StoreNewMultiimage(Request $request)
+    {
+        $newMulti = $request->imageid;
+        $multiImages = $request->file('multi_img');
+        // create image manager with desired driver
+        $manager = new ImageManager(new Driver());
+        // read image from file system
+        $images = $manager->read($multiImages);
+        $make_name = hexdec(uniqid()) . '.' . $multiImages->getClientOriginalExtension();
+        $images->resize(770, 520);
+        $images->toJpeg(100)->save(public_path('upload/property/multi-image/' . $make_name));
+        $uploadPath = 'upload/property/multi-image/' . $make_name;
+
+        MultiImage::insert([
+            'property_id' => $newMulti,
+            'photo_name' => $uploadPath,
+            'created_at' => Carbon::now(),
+        ]);
+
+        $notification = array(
+            'message' => 'Property Multi Image Added Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    } // End Method 
+
 }
