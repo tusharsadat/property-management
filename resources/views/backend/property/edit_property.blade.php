@@ -386,9 +386,11 @@
                         <div class="card-body">
                             <h6 class="card-title">Edit Property Facility </h6>
 
-                            <form method="post" action="{{ route('update.property.thambnail') }}" id="myForm"
+                            <form method="post" action="{{ route('update.property.facilities') }}" id="myForm"
                                 enctype="multipart/form-data">
                                 @csrf
+
+                                <input type="hidden" name="id" value="{{ $property->id }}">
 
                                 @foreach ($facilities as $item)
                                     <div class="row add_item">
