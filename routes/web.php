@@ -103,5 +103,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/update/property/facilities', 'UpdatePropertyFacilities')->name('update.property.facilities');
 
         Route::delete('/delete/property/{id}', 'DeleteProperty')->name('delete.property');
+
+        Route::get('/details/property/{id}', 'DetailsProperty')->name('details.property');
     });
 }); // End Group Admin Middleware

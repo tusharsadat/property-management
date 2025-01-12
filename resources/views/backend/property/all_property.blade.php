@@ -46,6 +46,9 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                <a href="{{ route('details.property', $item->id) }}"
+                                                    class="btn btn-inverse-info" title="Details"> <i data-feather="eye"></i>
+                                                </a>
                                                 <a href="{{ route('edit.property', $item->id) }}"
                                                     class="btn btn-inverse-warning"> Edit </a>
 
