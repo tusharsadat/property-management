@@ -182,7 +182,8 @@
                                                 @foreach ($amenities as $ameni)
                                                     <option value="{{ $ameni->amenities_name }}"
                                                         {{ in_array($ameni->amenities_name, $property_ami) ? 'selected' : '' }}>
-                                                        {{ $ameni->amenities_name }}</option>
+                                                        {{ $ameni->amenities_name }}
+                                                    </option>
                                                 @endforeach
 
                                             </select>
