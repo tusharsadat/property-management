@@ -105,5 +105,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::delete('/delete/property/{id}', 'DeleteProperty')->name('delete.property');
 
         Route::get('/details/property/{id}', 'DetailsProperty')->name('details.property');
+
+        Route::patch('/inactive/property', 'InactiveProperty')->name('inactive.property');
+        Route::patch('/active/property', 'ActiveProperty')->name('active.property');
     });
 }); // End Group Admin Middleware

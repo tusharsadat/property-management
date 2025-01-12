@@ -149,6 +149,23 @@
 
                                 </tbody>
                             </table>
+                            <br><br>
+                            @if ($property->status == 1)
+                                <form method="post" action="{{ route('inactive.property') }}">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="id" value="{{ $property->id }}">
+                                    <button type="submit" class="btn btn-primary">InActive </button>
+                                </form>
+                            @else
+                                <form method="post" action="{{ route('active.property') }}">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="id" value="{{ $property->id }}">
+                                    <button type="submit" class="btn btn-primary">Active </button>
+                                </form>
+                            @endif
+                            <br><br>
                         </div>
                     </div>
                 </div>
