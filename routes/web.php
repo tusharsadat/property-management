@@ -101,5 +101,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/store/new/multiimage', 'StoreNewMultiimage')->name('store.new.multiimage');
 
         Route::post('/update/property/facilities', 'UpdatePropertyFacilities')->name('update.property.facilities');
+
+        Route::delete('/delete/property/{id}', 'DeleteProperty')->name('delete.property');
     });
 }); // End Group Admin Middleware

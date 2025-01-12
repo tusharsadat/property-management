@@ -344,4 +344,41 @@ class PropertyController extends Controller
         return redirect()->back()->with($notification);
     } // End Method 
 
+    public function DeleteProperty($id)
+    {
+        // Retrieve the property record
+        $property = Property::findOrFail($id);
+
+        // Delete property thumbnail if it exists
+        if (file_exists($property->property_thambnail)) {
+            unlink($property->property_thambnail);
+        }
+
+        // Delete the property record
+        $property->delete();
+
+        // Retrieve and delete related multi-images in bulk
+        $multiImages = MultiImage::where('property_id', $id)->get();
+
+        foreach ($multiImages as $img) {
+            if (file_exists($img->photo_name)) {
+                unlink($img->photo_name);
+            }
+        }
+        MultiImage::where('property_id', $id)->delete(); // Bulk delete
+
+        // Delete related facilities in bulk
+        Facility::where('property_id', $id)->delete();
+
+        // Success notification
+        $notification = [
+            'message' => 'Property and related data deleted successfully',
+            'alert-type' => 'success',
+        ];
+
+        // Redirect back with a notification
+        return redirect()->back()->with($notification);
+    } // End Method  
+
+
 }
