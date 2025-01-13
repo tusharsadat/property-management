@@ -60,6 +60,8 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
 
 Route::get('/agent/login', [AgentController::class, 'AgentLogin'])->name('agent.login')->middleware(RedirectIfAuthenticated::class);
 Route::post('/agent/register', [AgentController::class, 'AgentRegister'])->name('agent.register');
+Route::post('/validate-email', [AgentController::class, 'validateEmail'])->name('validate.email');
+Route::post('/validate-phone', [AgentController::class, 'validatePhone'])->name('validate.phone');
 
 Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login')->middleware(RedirectIfAuthenticated::class);
 

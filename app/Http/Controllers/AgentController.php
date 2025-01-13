@@ -23,28 +23,34 @@ class AgentController extends Controller
         return view('agent.agent_login');
     } // End Method 
 
+    public function validateEmail(Request $request)
+    {
+        $emailExists = User::where('email', $request->email)->exists();
+        return response()->json(!$emailExists); // Return true if not exists, false otherwise
+    }
+
+    public function validatePhone(Request $request)
+    {
+        $phoneExists = User::where('phone', $request->phone)->exists();
+        return response()->json(!$phoneExists); // Return true if not exists, false otherwise
+    }
+
     public function AgentRegister(Request $request)
     {
         // Validate the request data
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required|string|unique:users,phone',
-            'password' => 'required|string|min:8|confirmed',
+            'email' => 'required|email|unique:users,email', // Ensure email is unique
+            'phone' => 'required|numeric|unique:users,phone', // Ensure phone is unique
+            'password' => 'required|string|min:8|confirmed', // Validation for password and confirmation
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        // Create the user
+        // Store agent details
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'password' => Hash::make($validated['password']),
             'role' => User::ROLE_AGENT, // Use constants or enums for role
             'status' => User::STATUS_INACTIVE, // Use constants or enums for status
         ]);

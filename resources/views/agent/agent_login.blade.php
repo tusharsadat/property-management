@@ -1,5 +1,17 @@
 @extends('frontend.frontend_dashboard')
 @section('main')
+    <style>
+        .is-invalid {
+            border: #ffc2d1;
+            /* background-color: #ffd6e0; */
+        }
+
+        input.error-placeholder::placeholder {
+            color: #991f3d;
+            font-style: italic;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <!--Page Title-->
     <section class="page-title-two bg-color-1 centred">
         <div class="pattern-layer">
@@ -62,28 +74,35 @@
                                 <div class="inner-box">
                                     <h4>Agent Register </h4>
 
-                                    <form action="{{ route('agent.register') }}" method="post" class="default-form">
+                                    <form id="myForm" action="{{ route('agent.register') }}" method="post"
+                                        class="default-form">
                                         @csrf
                                         <div class="form-group">
                                             <label>Agent Company Name</label>
-                                            <input type="text" name="name" id="name" required="">
+                                            <input type="text" name="name" id="name" class="form-control"
+                                                placeholder="">
+
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group ">
                                             <label>Email address</label>
-                                            <input type="email" name="email" id="email" required="">
+                                            <input type="email" name="email" id="email" class="form-control"
+                                                placeholder="">
+
                                         </div>
                                         <div class="form-group">
                                             <label>Agent Phone </label>
-                                            <input type="text" name="phone" id="phone" required="">
+                                            <input type="text" name="phone" id="phone" class="form-control"
+                                                placeholder="">
                                         </div>
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" name="password" id="password" required="">
+                                            <input type="password" name="password" id="checkpassword" class="form-control"
+                                                placeholder="">
                                         </div>
                                         <div class="form-group">
-                                            <label>Confirm Password</label>
-                                            <input type="password" name="password_confirmation" id="password_confirmation"
-                                                required="">
+                                            <label for="password_confirmation">Confirm Password</label>
+                                            <input type="password" id="password_confirmation" name="password_confirmation"
+                                                class="form-control" placeholder="" />
                                         </div>
                                         <div class="form-group message-btn">
                                             <button type="submit" class="theme-btn btn-one">Register</button>
@@ -126,4 +145,88 @@
         </div>
     </section>
     <!-- subscribe-section end -->
+
+
+    <script>
+        $(document).ready(function() {
+            $('#myForm').validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        remote: {
+                            url: "/validate-email", // Route for AJAX validation
+                            type: "POST",
+                            data: {
+                                email: function() {
+                                    return $('#email').val();
+                                },
+                                _token: $('meta[name="csrf-token"]').attr('content'), // CSRF Token
+                            },
+                        },
+                    },
+                    phone: {
+                        required: true,
+                        remote: {
+                            url: "/validate-phone", // Route for AJAX validation
+                            type: "POST",
+                            data: {
+                                phone: function() {
+                                    return $('#phone').val();
+                                },
+                                _token: $('meta[name="csrf-token"]').attr('content'), // CSRF Token
+                            },
+                        },
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8,
+                    },
+                    password_confirmation: {
+                        required: true,
+                        equalTo: "#checkpassword", // Ensures this matches the password field
+                    },
+                },
+                messages: {
+                    name: {
+                        required: 'Agent Name is required'
+                    },
+                    email: {
+                        required: 'Email is required',
+                        email: 'Invalid email format',
+                        remote: 'Email already exists',
+                    },
+                    phone: {
+                        required: 'Phone number is required',
+                        remote: 'Phone number already exists',
+                    },
+                    password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 8 characters long",
+                    },
+                    password_confirmation: {
+                        required: "Please confirm your password",
+                        equalTo: "Passwords do not match",
+                    },
+                },
+
+
+                errorPlacement: function(error, element) {
+                    // Display error messages directly under the input fields
+                    error.insertAfter(element).addClass(
+                        'text-danger'); // Adds bootstrap 'text-danger' class for styling
+                },
+                highlight: function(element) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass('is-invalid');
+                },
+
+            });
+        });
+    </script>
 @endsection
