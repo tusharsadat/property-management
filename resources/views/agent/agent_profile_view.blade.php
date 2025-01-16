@@ -56,7 +56,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">Update Agent Profile </h6>
-                            <form method="POST" action="" class="forms-sample" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('agent.profile.update') }}" class="forms-sample"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="exampleInputUsername1" class="form-label">Username</label>

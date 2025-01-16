@@ -84,4 +84,49 @@ class AgentController extends Controller
         $profileData = User::findOrFail($id); // Use `findOrFail` for safety if user data is critical
         return view('agent.agent_profile_view', compact('profileData'));
     } // End Method 
+
+    public function AgentProfileUpdate(Request $request)
+    {
+        // Get the authenticated user's ID and find the corresponding record
+        $id = Auth::id();
+        $data = User::findOrFail($id); // Use `findOrFail` for safety if user data is critical
+
+        // Validate the request data
+        $validatedData = $request->validate([
+            'username' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $id,
+            'phone' => 'required|string|max:15|unique:users,phone,' . $id,
+            'address' => 'nullable|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Update user data
+        $data->fill($validatedData);
+
+        // Handle photo upload if provided
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+
+            // Remove the old photo if it exists
+            if ($data->photo && file_exists(public_path('upload/agent_images/' . $data->photo))) {
+                unlink(public_path('upload/agent_images/' . $data->photo));
+            }
+
+            // Save the new photo
+            $filename = uniqid() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('upload/agent_images'), $filename);
+            $data->photo = $filename; // Update the photo attribute
+        }
+
+        // Save the updated user data
+        $data->save();
+
+        // Return a success notification
+        return redirect()->back()->with([
+            'message' => 'Agent Profile Updated Successfully',
+            'alert-type' => 'success',
+        ]);
+    } // End Method
+
 }
