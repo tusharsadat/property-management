@@ -76,4 +76,12 @@ class AgentController extends Controller
         ];
         return redirect('/agent/login')->with($notification);
     } // End Method 
+
+    public function AgentProfile()
+    {
+        // Get the authenticated user's ID and find the corresponding record
+        $id = Auth::id();
+        $profileData = User::findOrFail($id); // Use `findOrFail` for safety if user data is critical
+        return view('agent.agent_profile_view', compact('profileData'));
+    } // End Method 
 }
