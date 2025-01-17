@@ -59,6 +59,7 @@
                             <form method="POST" action="{{ route('agent.profile.update') }}" class="forms-sample"
                                 enctype="multipart/form-data">
                                 @csrf
+                                @method('PATCH')
                                 <div class="mb-3">
                                     <label for="exampleInputUsername1" class="form-label">Username</label>
                                     <input type="text" name="username" class="form-control" id="exampleInputUsername1"
