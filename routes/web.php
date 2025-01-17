@@ -121,4 +121,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::patch('/inactive/property', 'InactiveProperty')->name('inactive.property');
         Route::patch('/active/property', 'ActiveProperty')->name('active.property');
     });
+
+    // Agent All Route from admin 
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/all/agent', 'AllAgent')->name('all.agent');
+    });
 }); // End Group Admin Middleware
