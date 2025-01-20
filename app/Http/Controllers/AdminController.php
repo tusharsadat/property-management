@@ -109,4 +109,52 @@ class AdminController extends Controller
         $allagent = User::where('role', 'agent')->get();
         return view('backend.agentuser.all_agent', compact('allagent'));
     } // End Method 
+
+    public function AddAgent()
+    {
+        return view('backend.agentuser.add_agent');
+    } // End Method 
+
+    public function validateEmail(Request $request)
+    {
+        $emailExists = User::where('email', $request->email)->exists();
+        return response()->json(!$emailExists); // Return true if not exists, false otherwise
+    } // End Method 
+
+    public function validatePhone(Request $request)
+    {
+        $phoneExists = User::where('phone', $request->phone)->exists();
+        return response()->json(!$phoneExists); // Return true if not exists, false otherwise
+    } // End Method 
+
+    public function StoreAgent(Request $request)
+    {
+        // Validate input data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'phone' => 'required|string|max:15|unique:users,phone',
+            'address' => 'nullable|string|max:255',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Store new agent in the database
+        User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'address' => $validatedData['address'] ?? null, // Nullable field
+            'password' => Hash::make($validatedData['password']),
+            'role' => User::ROLE_AGENT, // Use constant for role
+            'status' => User::STATUS_ACTIVE, // Use constant for status
+        ]);
+
+        // Success notification
+        $notification = [
+            'message' => 'Agent Created Successfully',
+            'alert-type' => 'success'
+        ];
+
+        return redirect()->route('all.agent')->with($notification);
+    } // End Method
 }
