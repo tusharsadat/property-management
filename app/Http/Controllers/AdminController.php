@@ -157,4 +157,10 @@ class AdminController extends Controller
 
         return redirect()->route('all.agent')->with($notification);
     } // End Method
+
+    public function EditAgent($id)
+    {
+        $allagent = User::findOrFail($id);
+        return view('backend.agentuser.edit_agent', compact('allagent'));
+    } // End Method 
 }
