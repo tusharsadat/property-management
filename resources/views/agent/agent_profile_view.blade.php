@@ -56,33 +56,33 @@
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">Update Agent Profile </h6>
-                            <form method="POST" action="{{ route('agent.profile.update') }}" class="forms-sample"
-                                enctype="multipart/form-data">
+                            <form id="myForm" method="POST" action="{{ route('agent.profile.update') }}"
+                                class="forms-sample" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
                                 <div class="mb-3">
                                     <label for="exampleInputUsername1" class="form-label">Username</label>
-                                    <input type="text" name="username" class="form-control" id="exampleInputUsername1"
+                                    <input type="text" name="username" class="form-control" id="username"
                                         autocomplete="off" value="{{ $profileData->username }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Name </label>
-                                    <input type="text" name="name" class="form-control" id="exampleInputUsername1"
+                                    <input type="text" name="name" class="form-control" id="name"
                                         autocomplete="off" value="{{ $profileData->name }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Email </label>
-                                    <input type="email" name="email" class="form-control" id="exampleInputUsername1"
+                                    <input type="email" name="email" class="form-control" id="email"
                                         autocomplete="off" value="{{ $profileData->email }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Phone </label>
-                                    <input type="text" name="phone" class="form-control" id="exampleInputUsername1"
+                                    <input type="text" name="phone" class="form-control" id="phone"
                                         autocomplete="off" value="{{ $profileData->phone }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Address </label>
-                                    <input type="text" name="address" class="form-control" id="exampleInputUsername1"
+                                    <input type="text" name="address" class="form-control" id="address"
                                         autocomplete="off" value="{{ $profileData->address }}">
                                 </div>
                                 <div class="mb-3">
@@ -108,6 +108,55 @@
             <!-- right wrapper end -->
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#myForm').validate({
+                rules: {
+                    username: {
+                        required: true,
+                    },
+                    name: {
+                        required: true,
+                    },
+                    email: {
+                        required: true,
+                    },
+                    phone: {
+                        required: true,
+                    },
+
+                },
+                messages: {
+                    username: {
+                        required: 'Please Enter User Name',
+                    },
+                    name: {
+                        required: 'Please Enter Name',
+                    },
+                    email: {
+                        required: 'Please Enter Email',
+                    },
+                    phone: {
+                        required: 'Please Enter Phone',
+                    },
+
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                },
+            });
+        });
+    </script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#image').change(function(e) {
