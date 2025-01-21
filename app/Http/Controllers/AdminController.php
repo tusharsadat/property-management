@@ -179,4 +179,22 @@ class AdminController extends Controller
         );
         return redirect()->route('all.agent')->with($notification);
     } // End Method 
+
+    public function DeleteAgent($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Remove the old photo if it exists
+        if ($user->photo && file_exists(public_path('upload/agent_images/' . $user->photo))) {
+            unlink(public_path('upload/agent_images/' . $user->photo));
+        }
+        // Delete the user record
+        $user->delete();
+
+        $notification = [
+            'message' => 'Agent Deleted Successfully',
+            'alert-type' => 'success'
+        ];
+        return redirect()->back()->with($notification);
+    } // End Method 
 }
