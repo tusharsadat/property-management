@@ -10,8 +10,9 @@
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">Edit Agent </h6>
-                            <form id="myForm" method="POST" action="" class="forms-sample">
+                            <form id="myForm" method="POST" action="{{ route('update.agent') }}" class="forms-sample">
                                 @csrf
+                                @method('patch')
 
                                 <input type="hidden" name="id" value="{{ $allagent->id }}">
 

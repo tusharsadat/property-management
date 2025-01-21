@@ -132,5 +132,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/validate-phone', 'validatePhone')->name('validate.phone');
         Route::post('/store/agent', 'StoreAgent')->name('store.agent');
         Route::get('/edit/agent/{id}', 'EditAgent')->name('edit.agent');
+        Route::patch('/update/agent', 'UpdateAgent')->name('update.agent');
     });
 }); // End Group Admin Middleware
