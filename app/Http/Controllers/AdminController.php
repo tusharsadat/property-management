@@ -197,4 +197,18 @@ class AdminController extends Controller
         ];
         return redirect()->back()->with($notification);
     } // End Method 
+
+    public function changeStatus(Request $request)
+    {
+        $request->validate([
+            'status' => 'required|boolean', // Accept only boolean values
+            'user_id' => 'required|exists:users,id', // User ID must exist
+        ]);
+
+        $user = User::findOrFail($request->user_id);
+        $user->status = $request->status;
+        $user->save();
+
+        return response()->json(['success' => 'Status Changed Successfully']);
+    } // End Method 
 }

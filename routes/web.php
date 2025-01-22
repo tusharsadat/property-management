@@ -134,5 +134,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/edit/agent/{id}', 'EditAgent')->name('edit.agent');
         Route::patch('/update/agent', 'UpdateAgent')->name('update.agent');
         Route::delete('/delete/agent/{id}', 'DeleteAgent')->name('delete.agent');
+        Route::patch('/changeStatus', 'changeStatus')->name('changeStatus');
     });
 }); // End Group Admin Middleware
