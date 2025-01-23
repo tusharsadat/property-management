@@ -154,5 +154,6 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
         Route::post('/agent/store/new/multiimage', 'AgentStoreNewMultiimage')->name('agent.store.new.multiimage');
         Route::post('/agent/update/property/facilities', 'AgentUpdatePropertyFacilities')->name('agent.update.property.facilities');
         Route::get('/agent/details/property/{id}', 'AgentDetailsProperty')->name('agent.details.property');
+        Route::delete('/agent/delete/property/{id}', 'AgentDeleteProperty')->name('agent.delete.property');
     });
 }); // End Group Agent Middleware

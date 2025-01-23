@@ -52,9 +52,13 @@
                                                 <a href="{{ route('agent.edit.property', $item->id) }}"
                                                     class="btn btn-inverse-warning" title="Edit"> <i
                                                         data-feather="edit"></i> </a>
-                                                <a href="{{ route('delete.property', $item->id) }}"
-                                                    class="btn btn-inverse-danger" id="delete" title="Delete"> <i
-                                                        data-feather="trash-2"></i> </a>
+                                                <form action="{{ route('agent.delete.property', $item->id) }}"
+                                                    method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-inverse-danger" id="delete-btn"><i
+                                                            data-feather="trash-2"></i></button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
