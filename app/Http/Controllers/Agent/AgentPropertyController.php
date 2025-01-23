@@ -31,6 +31,27 @@ class AgentPropertyController extends Controller
         $propertytype = PropertyType::latest()->get();
         $amenities = Amenities::latest()->get();
 
+        // Get the authenticated user
+        $agent = Auth::user();
+
+        // Ensure the user is an agent and fetch their credit count
+        if ($agent->role !== 'agent') {
+            return redirect()->route('dashboard')->with([
+                'message' => 'Access Denied. You are not authorized.',
+                'alert-type' => 'error',
+            ]);
+        }
+
+        $creditCount = $agent->credit;
+
+        // Redirect to buy package if the agent has insufficient credits
+        if ($creditCount == 1) {
+            return redirect()->route('buy.package')->with([
+                'message' => 'Please buy a package to add a property.',
+                'alert-type' => 'warning',
+            ]);
+        }
+
         return view('agent.property.add_property', compact('propertytype', 'amenities'));
     } // End Method 
 
