@@ -36,6 +36,12 @@ class AgentPropertyController extends Controller
 
     public function AgentStoreProperty(Request $request)
     {
+        $id = Auth::id(); // Retrieve logged-in user's ID more concisely
+        $user = User::findOrFail($id); // Ensure the user exists
+
+        // Increment the credit column by 1
+        $user->increment('credit', 1);
+
         $amen = $request->amenities_id;
         $amenites = implode(",", $amen);
         //dd($amenites);
