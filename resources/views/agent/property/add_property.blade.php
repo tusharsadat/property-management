@@ -182,17 +182,6 @@
                                             </select>
                                         </div>
                                     </div><!-- Col -->
-                                    {{-- <div class="col-sm-4">
-                                        <div class="mb-3">
-                                            <label class="form-label"> Agent </label>
-                                            <select name="agent_id" class="form-select" id="exampleFormControlSelect1">
-                                                <option selected="" disabled="">Select Agent</option>
-                                                @foreach ($activeAgent as $agent)
-                                                    <option value="{{ $agent->id }}">{{ $agent->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div><!-- Col --> --}}
                                 </div><!-- Row -->
                                 <div class="col-sm-12">
                                     <div class="mb-3">
