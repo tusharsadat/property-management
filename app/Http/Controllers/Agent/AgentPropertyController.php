@@ -345,4 +345,17 @@ class AgentPropertyController extends Controller
         return redirect()->back()->with($notification);
     } // End Method 
 
+    public function AgentDetailsProperty($id)
+    {
+
+        $property = Property::findOrFail($id);
+        $type = $property->amenities_id;
+        $property_ami = explode(',', $type);
+        $facilities = Facility::where('property_id', $id)->get();
+        $multiImage = MultiImage::where('property_id', $id)->get();
+        $propertytype = PropertyType::latest()->get();
+        $amenities = Amenities::latest()->get();
+        $activeAgent = User::where('status', 'active')->where('role', 'agent')->latest()->get();
+        return view('agent.property.details_property', compact('property', 'propertytype', 'amenities', 'activeAgent', 'property_ami', 'multiImage', 'facilities'));
+    } // End Method 
 }
