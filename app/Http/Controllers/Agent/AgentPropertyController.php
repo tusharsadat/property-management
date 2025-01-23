@@ -393,5 +393,11 @@ class AgentPropertyController extends Controller
 
         // Redirect back with a notification
         return redirect()->back()->with($notification);
+    } // End Method 
+
+    public function BuyPackage()
+    {
+
+        return view('agent.package.buy_package');
     } // End Method  
 }

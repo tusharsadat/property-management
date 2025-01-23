@@ -156,4 +156,9 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
         Route::get('/agent/details/property/{id}', 'AgentDetailsProperty')->name('agent.details.property');
         Route::delete('/agent/delete/property/{id}', 'AgentDeleteProperty')->name('agent.delete.property');
     });
+
+    // Agent Buy Package Route from admin 
+    Route::controller(AgentPropertyController::class)->group(function () {
+        Route::get('/buy/package', 'BuyPackage')->name('buy.package');
+    });
 }); // End Group Agent Middleware
