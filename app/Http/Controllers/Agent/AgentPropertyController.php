@@ -426,5 +426,21 @@ class AgentPropertyController extends Controller
     {
 
         return view('agent.package.buy_package');
-    } // End Method  
+    } // End Method 
+
+    public function BuyBusinessPlan()
+    {
+        // Retrieve the authenticated user's ID
+        $userId = Auth::id();
+
+        // Validate if the user is authenticated (optional if middleware ensures this)
+        if (!$userId) {
+            return redirect()->route('login')->withErrors([
+                'error' => 'You need to log in to access this page.'
+            ]);
+        }
+
+        // Pass the user ID to the view
+        return view('agent.package.business_plan', compact('userId'));
+    }
 }
