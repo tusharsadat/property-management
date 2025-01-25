@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <form method="post" action="{{ route('store.business.plan') }}">
+                    <form method="post" action="{{ route('store.package', $package->id) }}">
                         @csrf
                         <div class="card-body">
                             <div class="container-fluid d-flex justify-content-between">
@@ -23,7 +23,7 @@
                                     <h4 class="fw-bolder text-uppercase text-end mt-4 mb-2">invoice</h4>
                                     <h6 class="text-end mb-5 pb-4"># INV-{{ now()->format('Ymd') }}-{{ $user->id }}</h6>
                                     <p class="text-end mb-1">Balance Due</p>
-                                    <h4 class="text-end fw-normal">$ 20</h4>
+                                    <h4 class="text-end fw-normal">$ {{ $package->package_amount }}</h4>
                                     <h6 class="mb-0 mt-3 text-end fw-normal mb-2"><span class="text-muted">Invoice Date
                                             :</span>
                                         {{ \Carbon\Carbon::now()->format('d-m-Y') }}</h6>
@@ -45,10 +45,10 @@
                                         <tbody>
                                             <tr class="text-end">
                                                 <td class="text-start">1</td>
-                                                <td class="text-start">Business</td>
-                                                <td>3</td>
-                                                <td>$20</td>
-                                                <td>$20</td>
+                                                <td class="text-start">{{ $package->package_name }}</td>
+                                                <td>{{ $package->property_limit }}</td>
+                                                <td>${{ $package->package_amount }}</td>
+                                                <td>${{ $package->package_amount }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -62,19 +62,22 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>Sub Total</td>
-                                                        <td class="text-end">$ 20</td>
+                                                        <td class="text-end">$ {{ $package->package_amount }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-bold-800">Total</td>
-                                                        <td class="text-bold-800 text-end">$ 20</td>
+                                                        <td class="text-bold-800 text-end">$ {{ $package->package_amount }}
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Payment Made</td>
-                                                        <td class="text-danger text-end">(-) $ 20</td>
+                                                        <td class="text-danger text-end">(-) $
+                                                            {{ $package->package_amount }}</td>
                                                     </tr>
                                                     <tr class="bg-dark">
                                                         <td class="text-bold-800">Balance Due</td>
-                                                        <td class="text-bold-800 text-end">$ $ 20</td>
+                                                        <td class="text-bold-800 text-end">$ {{ $package->package_amount }}
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -84,7 +87,7 @@
                             </div>
                             <div class="container-fluid w-100">
                                 <button type="submit" class="btn btn-primary float-end mt-4 ms-2"><i data-feather="send"
-                                        class="me-3 icon-md"></i>Send Invoice</button>
+                                        class="me-3 icon-md"></i>Buy Package</button>
                             </div>
                         </div>
                     </form>

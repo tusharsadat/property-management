@@ -160,6 +160,8 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
     // Agent Buy Package Route from admin 
     Route::controller(AgentPropertyController::class)->group(function () {
         Route::get('/buy/package', 'BuyPackage')->name('buy.package');
+        Route::get('/package/invoice/{packageId}', 'PackageInvoice')->name('package.invoice');
+        Route::post('/store/package/{packageId}', 'StorePackage')->name('store.package');
         Route::get('/buy/business/plan', 'BuyBusinessPlan')->name('buy.business.plan');
         Route::post('/store/business/plan', 'StoreBusinessPlan')->name('store.business.plan');
     });

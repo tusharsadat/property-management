@@ -11,6 +11,7 @@ use App\Models\MultiImage;
 use App\Models\PropertyType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\PackagePlan;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -31,24 +32,21 @@ class AgentPropertyController extends Controller
         $propertytype = PropertyType::latest()->get();
         $amenities = Amenities::latest()->get();
 
-        // Get the authenticated user
-        $agent = Auth::user();
+        $user = Auth::user();
 
-        // Ensure the user is an agent and fetch their credit count
-        if ($agent->role !== 'agent') {
-            return redirect()->route('dashboard')->with([
-                'message' => 'Access Denied. You are not authorized.',
-                'alert-type' => 'error',
-            ]);
-        }
-
-        $creditCount = $agent->credit;
-
-        // Redirect to buy package if the agent has insufficient credits
-        if ($creditCount == 1) {
+        // Check if the user has remaining property slots
+        if ($user->used_properties >= $user->property_limit) {
             return redirect()->route('buy.package')->with([
                 'message' => 'Please buy a package to add a property.',
                 'alert-type' => 'warning',
+            ]);
+        }
+
+        // Ensure the user is an agent and fetch their credit count
+        if ($user->role !== 'agent') {
+            return redirect()->route('dashboard')->with([
+                'message' => 'Access Denied. You are not authorized.',
+                'alert-type' => 'error',
             ]);
         }
 
@@ -57,11 +55,13 @@ class AgentPropertyController extends Controller
 
     public function AgentStoreProperty(Request $request)
     {
-        $id = Auth::id(); // Retrieve logged-in user's ID more concisely
-        $user = User::findOrFail($id); // Ensure the user exists
 
-        // Increment the credit column by 1
-        $user->increment('credit', 1);
+        $user = Auth::user();
+
+        // Check if the user has remaining property slots
+        if ($user->used_properties >= $user->property_limit) {
+            return redirect()->back()->with(['error' => 'You have reached your property limit. Please upgrade your package.']);
+        }
 
         $amen = $request->amenities_id;
         $amenites = implode(",", $amen);
@@ -153,6 +153,11 @@ class AgentPropertyController extends Controller
             }
         }
         /// End Facilities  ////
+
+        // Increment the used_properties count
+        $user->used_properties += 1;
+        $user->save();
+
         $notification = array(
             'message' => 'Property Inserted Successfully',
             'alert-type' => 'success'
@@ -424,9 +429,45 @@ class AgentPropertyController extends Controller
 
     public function BuyPackage()
     {
+        $packages = PackagePlan::get();
 
-        return view('agent.package.buy_package');
+        return view('agent.package.buy_package', compact('packages'));
     } // End Method 
+
+    public function PackageInvoice($id)
+    {
+        $package = PackagePlan::findOrFail($id);
+        $user = Auth::user();
+
+        return view('agent.package.package_invoice', compact('package', 'user'));
+    } // End Method 
+
+    public function StorePackage(Request $request, $packageId)
+    {
+        // Fetch the selected package
+        $package = PackagePlan::findOrFail($packageId);
+
+        if (!$package) {
+            return back()->with(['error' => 'Invalid Package Selected']);
+        }
+
+        // Update the user's property limit based on the package
+        $user = Auth::user();
+        // Update the user's property limit
+        $user->property_limit += $package->property_limit;
+
+        // Optional: If you want to reset used properties only if the user has consumed their limit:
+        if ($user->used_properties >= $user->property_limit) {
+            $user->used_properties = 0;
+        }
+        $user->save();
+
+        $notification = [
+            'message' => 'Package Purchased Successfully. You can now add ' . $package->property_limit . ' properties.',
+            'alert-type' => 'success'
+        ];
+        return redirect()->route('agent.add.property')->with($notification);
+    }
 
     public function BuyBusinessPlan()
     {
