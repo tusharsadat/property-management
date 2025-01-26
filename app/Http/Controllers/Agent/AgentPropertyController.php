@@ -11,6 +11,7 @@ use App\Models\MultiImage;
 use App\Models\PropertyType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Package;
 use App\Models\PackagePlan;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
@@ -461,6 +462,18 @@ class AgentPropertyController extends Controller
             $user->used_properties = 0;
         }
         $user->save();
+
+        // Generate the invoice number using the specified format
+        $invoiceNumber = 'INV-' . now()->format('Ymd') . '-' . $user->id;
+
+        Package::create([
+            'user_id' => $user->id,
+            'package_name' => $package->package_name,
+            'invoice' => $invoiceNumber,
+            'property_limit' => $package->property_limit,
+            'package_amount' => $package->package_amount,
+
+        ]);
 
         $notification = [
             'message' => 'Package Purchased Successfully. You can now add ' . $package->property_limit . ' properties.',
