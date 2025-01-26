@@ -480,23 +480,26 @@ class AgentPropertyController extends Controller
             'alert-type' => 'success'
         ];
         return redirect()->route('agent.add.property')->with($notification);
-    }
+    } // End Method 
 
-    public function BuyBusinessPlan()
+    public function PackageHistory()
     {
-        // Retrieve the authenticated user
+        // Get the authenticated user
         $user = Auth::user();
 
-        // Check if the user is authenticated (optional if middleware is in place)
-        if (!$user) {
-            return redirect()->route('login')->withErrors([
-                'error' => 'You need to log in to access this page.'
+        // Fetch package history for the user
+        $packageHistory = Package::where('user_id', $user->id)
+            ->latest() // Fetch the latest packages first
+            ->get();
+
+        // Check if there is any package history
+        if ($packageHistory->isEmpty()) {
+            return redirect()->route('buy.package')->with([
+                'message' => 'No package history found. Please buy a package to get started.',
+                'alert-type' => 'info',
             ]);
         }
 
-        // Pass the user data to the view
-        return view('agent.package.business_plan', compact('user'));
-    }
-
-    public function StoreBusinessPlan(Request $request) {} // End Method 
+        return view('agent.package.package_history', compact('packageHistory'));
+    } // End Method 
 }
