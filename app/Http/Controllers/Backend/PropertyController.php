@@ -11,6 +11,7 @@ use App\Models\Amenities;
 use App\Models\MultiImage;
 use App\Models\PropertyType;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -427,4 +428,37 @@ class PropertyController extends Controller
         $packageHistory = Package::latest()->get();
         return view('backend.package.package_history', compact('packageHistory'));
     } // End Method 
+
+    public function DownloadPackageInvoice($id)
+    {
+        // Fetch the package history based on the given ID
+        $packageHistory = Package::find($id);
+
+        // Handle invalid or missing package history
+        if (!$packageHistory) {
+            return redirect()->route('admin.package.history')->with([
+                'message' => 'Package not found or invalid ID.',
+                'alert-type' => 'error',
+            ]);
+        }
+
+        try {
+            // Load the PDF view and generate the invoice
+            $pdf = Pdf::loadView('backend.package.package_history_invoice', compact('packageHistory'))
+                ->setPaper('a4')
+                ->setOption([
+                    'tempDir' => public_path(),
+                    'chroot' => public_path(),
+                ]);
+
+            // Return the generated PDF as a downloadable response
+            return $pdf->download('invoice_' . $packageHistory->id . '.pdf');
+        } catch (\Exception $e) {
+            // Handle PDF generation errors
+            return redirect()->route('admin.package.history')->with([
+                'message' => 'Failed to generate invoice. Please try again.',
+                'alert-type' => 'error',
+            ]);
+        }
+    }
 }
