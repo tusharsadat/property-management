@@ -21,7 +21,9 @@
                                 </div>
                                 <div class="col-lg-3 pe-0">
                                     <h4 class="fw-bolder text-uppercase text-end mt-4 mb-2">invoice</h4>
-                                    <h6 class="text-end mb-5 pb-4"># INV-{{ now()->format('Ymd') }}-{{ $user->id }}</h6>
+                                    <h6 class="text-end mb-5 pb-4">
+                                        {{ 'INV-' . now()->format('His') . '-' . str_pad(Auth::user()->id, 4, '0', STR_PAD_LEFT) }}
+                                    </h6>
                                     <p class="text-end mb-1">Balance Due</p>
                                     <h4 class="text-end fw-normal">$ {{ $package->package_amount }}</h4>
                                     <h6 class="mb-0 mt-3 text-end fw-normal mb-2"><span class="text-muted">Invoice Date

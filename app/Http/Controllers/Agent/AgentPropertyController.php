@@ -465,7 +465,7 @@ class AgentPropertyController extends Controller
         $user->save();
 
         // Generate the invoice number using the specified format
-        $invoiceNumber = 'INV-' . now()->format('Ymd') . '-' . $user->id;
+        $invoiceNumber = 'INV-' . now()->format('His') . '-' . str_pad($user->id, 4, '0', STR_PAD_LEFT);
 
         Package::create([
             'user_id' => $user->id,
