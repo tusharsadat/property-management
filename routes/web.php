@@ -163,5 +163,6 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
         Route::get('/package/invoice/{packageId}', 'PackageInvoice')->name('package.invoice');
         Route::post('/store/package/{packageId}', 'StorePackage')->name('store.package');
         Route::get('/package/history', 'PackageHistory')->name('package.history');
+        Route::get('/agent/package/invoice/{id}', 'DownloadPackageInvoice')->name('agent.package.invoice');
     });
 }); // End Group Agent Middleware
