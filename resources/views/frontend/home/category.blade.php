@@ -1,18 +1,19 @@
 @php
-    $Property_type = App\Models\PropertyType::latest()->limit(5)->get();
+    // Fetch property types and count the associated properties in a single query
+    $propertyTypes = App\Models\PropertyType::withCount('properties')->latest()->limit(5)->get();
 @endphp
 
 <section class="category-section centred">
     <div class="auto-container">
         <div class="inner-container wow slideInLeft animated" data-wow-delay="00ms" data-wow-duration="1500ms">
             <ul class="category-list clearfix">
-                @foreach ($Property_type as $item)
+                @foreach ($propertyTypes as $item)
                     <li>
                         <div class="category-block-one">
                             <div class="inner-box">
                                 <div class="icon-box"><i class="{{ $item->type_icon }}"></i></div>
                                 <h5><a href="property-details.html">{{ $item->type_name }}</a></h5>
-                                <span>52</span>
+                                <span>{{ $item->properties_count }}</span>
                             </div>
                         </div>
                     </li>
