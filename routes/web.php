@@ -121,6 +121,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
         Route::patch('/inactive/property', 'InactiveProperty')->name('inactive.property');
         Route::patch('/active/property', 'ActiveProperty')->name('active.property');
+        Route::get('/admin/package/history', 'AdminPackageHistory')->name('admin.package.history');
     });
 
     // Agent All Route from admin 

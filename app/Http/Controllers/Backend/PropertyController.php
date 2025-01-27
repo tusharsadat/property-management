@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Package;
 use App\Models\Facility;
 use App\Models\Property;
 use App\Models\Amenities;
@@ -13,8 +14,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\Decoders\FilePathImageDecoder;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Intervention\Image\Decoders\FilePathImageDecoder;
 
 class PropertyController extends Controller
 {
@@ -421,5 +422,9 @@ class PropertyController extends Controller
         return redirect()->route('all.property')->with($notification);
     } // End Method 
 
-
+    public function AdminPackageHistory()
+    {
+        $packageHistory = Package::latest()->get();
+        return view('backend.package.package_history', compact('packageHistory'));
+    } // End Method 
 }
