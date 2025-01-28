@@ -161,12 +161,18 @@
                         </div>
                         <div class="statistics-box content-widget">
                             <div class="title-box">
-                                <h4>Page Statistics</h4>
+                                <h4>Property Video</h4>
                             </div>
                             <figure class="image-box">
-                                <a href="assets/images/resource/statistics-1.png" class="lightbox-image"
-                                    data-fancybox="gallery"><img src="assets/images/resource/statistics-1.png"
-                                        alt=""></a>
+                                @if ($property->property_video)
+                                    <iframe width="700" height="415" src="{{ $property->property_video }}"
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen>
+                                    </iframe>
+                                @else
+                                    <p>No video available for this property.</p>
+                                @endif
                             </figure>
                         </div>
                         <div class="schedule-box content-widget">
