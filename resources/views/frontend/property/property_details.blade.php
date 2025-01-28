@@ -139,115 +139,22 @@
                                 <div class="single-item">
                                     <div class="icon-box"><i class="fas fa-book-reader"></i></div>
                                     <div class="inner">
-                                        <h5>Education:</h5>
-                                        <div class="box clearfix">
-                                            <div class="text pull-left">
-                                                <h6>Western Reserve University <span>(2.10 km)</span></h6>
+                                        <h5>Places:</h5>
+                                        @foreach ($facility as $item)
+                                            <div class="box clearfix">
+                                                <div class="text pull-left">
+                                                    <h6>{{ $item->facility_name }} <span>({{ $item->distance }} km)</span>
+                                                    </h6>
+                                                </div>
+                                                <ul class="rating pull-right clearfix">
+                                                    <li><i class="icon-39"></i></li>
+                                                    <li><i class="icon-39"></i></li>
+                                                    <li><i class="icon-39"></i></li>
+                                                    <li><i class="icon-39"></i></li>
+                                                    <li><i class="icon-40"></i></li>
+                                                </ul>
                                             </div>
-                                            <ul class="rating pull-right clearfix">
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-40"></i></li>
-                                            </ul>
-                                        </div>
-                                        <div class="box clearfix">
-                                            <div class="text pull-left">
-                                                <h6>Georgia Institute of Technology <span>(1.42 km)</span></h6>
-                                            </div>
-                                            <ul class="rating pull-right clearfix">
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-40"></i></li>
-                                            </ul>
-                                        </div>
-                                        <div class="box clearfix">
-                                            <div class="text pull-left">
-                                                <h6>Harvey Mudd College <span>(2.10 km)</span></h6>
-                                            </div>
-                                            <ul class="rating pull-right clearfix">
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-40"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-item">
-                                    <div class="icon-box"><i class="fas fa-coffee"></i></div>
-                                    <div class="inner">
-                                        <h5>Restaurant:</h5>
-                                        <div class="box clearfix">
-                                            <div class="text pull-left">
-                                                <h6>SC Ranch Market <span>(3.10 km)</span></h6>
-                                            </div>
-                                            <ul class="rating pull-right clearfix">
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-40"></i></li>
-                                            </ul>
-                                        </div>
-                                        <div class="box clearfix">
-                                            <div class="text pull-left">
-                                                <h6>Chill On The Hill <span>(2.42 km)</span></h6>
-                                            </div>
-                                            <ul class="rating pull-right clearfix">
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-40"></i></li>
-                                            </ul>
-                                        </div>
-                                        <div class="box clearfix">
-                                            <div class="text pull-left">
-                                                <h6>Gordon Ramsay Hell's Kitchen <span>(1.22 km)</span></h6>
-                                            </div>
-                                            <ul class="rating pull-right clearfix">
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-40"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-item">
-                                    <div class="icon-box"><i class="fas fa-capsules"></i></div>
-                                    <div class="inner">
-                                        <h5>Health & Medical:</h5>
-                                        <div class="box clearfix">
-                                            <div class="text pull-left">
-                                                <h6>North Star Medical Clinic <span> (2.10 km)</span></h6>
-                                            </div>
-                                            <ul class="rating pull-right clearfix">
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-40"></i></li>
-                                            </ul>
-                                        </div>
-                                        <div class="box clearfix">
-                                            <div class="text pull-left">
-                                                <h6>Clairvoyant Healing <span>(1.42 km)</span></h6>
-                                            </div>
-                                            <ul class="rating pull-right clearfix">
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-39"></i></li>
-                                                <li><i class="icon-40"></i></li>
-                                            </ul>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
