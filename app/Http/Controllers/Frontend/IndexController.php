@@ -15,6 +15,13 @@ class IndexController extends Controller
         $property = Property::with(['multiImages', 'facilities', 'property_type'])
             ->findOrFail($id);
 
+        // Fetch related properties of the same type, excluding the current property
+        $relatedProperty = Property::where('ptype_id', $property->ptype_id)
+            ->where('id', '!=', $id)
+            ->latest()
+            ->limit(3)
+            ->get();
+
         // Convert YouTube video URL to embed link
         if (Str::contains($property->property_video, 'watch?v=')) {
             $property->property_video = Str::replace('watch?v=', 'embed/', $property->property_video);
@@ -29,6 +36,7 @@ class IndexController extends Controller
             'multiImage' => $property->multiImages,
             'property_amen' => $property_amen,
             'facility' => $property->facilities,
+            'relatedProperty' => $relatedProperty,
         ]);
     } // End Method 
 }
