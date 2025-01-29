@@ -122,12 +122,11 @@
                                 <li><span>City:</span> {{ $property->city }}</li>
                             </ul>
                             <div class="google-map-area">
-                                <div class="google-map" id="contact-google-map" data-map-lat="40.712776"
-                                    data-map-lng="-74.005974" data-icon-path="assets/images/icons/map-marker.png"
+                                <div class="google-map" id="contact-google-map" data-map-lat="{{ $property->latitude }}"
+                                    data-map-lng="{{ $property->longitude }}"
+                                    data-icon-path="{{ asset('frontend/assets/images/icons/map-marker.png') }}"
                                     data-map-title="Brooklyn, New York, United Kingdom" data-map-zoom="12"
-                                    data-markers='{
-                                    "marker-1": [40.712776, -74.005974, "<h4>Branch Office</h4><p>77/99 New York</p>","assets/images/icons/map-marker.png"]
-                                }'>
+                                    data-markers='{"marker-1": [40.712776, -74.005974, "<h4>Branch Office</h4><p>77/99 New York</p>","{{ asset('frontend/assets/images/icons/map-marker.png') }}"]}'>
                                 </div>
                             </div>
                         </div>
