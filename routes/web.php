@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Backend\PropertyTypeController;
 
@@ -172,3 +173,6 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
 
 // Frontend Property Details All Route 
 Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDetails']);
+
+// Wishlist Add Route 
+Route::post('/add-to-wishList/{property_id}', [WishlistController::class, 'AddToWishList']);
