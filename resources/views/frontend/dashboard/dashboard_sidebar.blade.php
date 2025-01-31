@@ -13,8 +13,8 @@
                     credits<span class="badge badge-info">( 10 credits)</span></a></li>
             <li><a href="blog-details.html"><i class="fa fa-list-alt" aria-hidden="true"></i></i>
                     Properties </a></li>
-            <li><a href="blog-details.html"><i class="fa fa-indent" aria-hidden="true"></i> Add a
-                    Property </a></li>
+            <li><a href="{{ route('user.wishlist') }}"><i class="fa fa-indent" aria-hidden="true"></i> WishList </a>
+            </li>
             <li><a href="{{ route('user.change.password') }}"><i class="fa fa-key" aria-hidden="true"></i> Update
                     password
                 </a></li>

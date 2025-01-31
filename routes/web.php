@@ -176,3 +176,10 @@ Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDe
 
 // Wishlist Add Route 
 Route::post('/add-to-wishList/{property_id}', [WishlistController::class, 'AddToWishList']);
+
+// User WishlistAll Route 
+Route::controller(WishlistController::class)->group(function () {
+
+    Route::get('/user/wishlist', 'UserWishlist')->name('user.wishlist');
+    Route::get('/get-wishlist-property', 'GetWishlistProperty');
+});
