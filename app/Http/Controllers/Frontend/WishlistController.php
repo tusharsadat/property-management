@@ -73,4 +73,28 @@ class WishlistController extends Controller
             ]);
         }
     } // End Method
+
+    // Remove property from wishlist
+    public function WishlistRemove($id)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'error' => 'Please login to manage your wishlist.',
+                'redirect' => route('login')
+            ]);
+        }
+
+        $wishlistItem = Wishlist::where('user_id', Auth::id())->where('id', $id)->first();
+
+        if ($wishlistItem) {
+            $wishlistItem->delete();
+            return response()->json([
+                'success' => 'Property removed from wishlist!'
+            ]);
+        }
+
+        return response()->json([
+            'error' => 'Property not found in wishlist.'
+        ]);
+    }
 }

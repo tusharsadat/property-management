@@ -217,7 +217,7 @@
                                 </ul>
                                 <div class="other-info-box clearfix">
                                     <ul class="other-option pull-right clearfix">
-                                        <li><a href="property-details.html"><i class="icon-13"></i></a></li>
+                                        <li><a type="submit" class="text-body" id="${item.id}" onclick="wishlistRemove(this.id)" ><i class="fa fa-trash"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -240,6 +240,49 @@
 
         // Load Wishlist on Page Load
         wishlist();
+
+        // Wishlist Remove Function
+        function wishlistRemove(id) {
+            $.ajax({
+                type: "DELETE", // Using DELETE instead of GET for better API design
+                dataType: 'json',
+                url: "/wishlist-remove/" + id,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content') // CSRF token for security
+                },
+                success: function(data) {
+                    wishlist(); // Refresh wishlist after removal
+
+                    // SweetAlert Notification
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    if (data.success) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.error || "Something went wrong!"
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle server errors gracefully
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops!',
+                        text: xhr.responseJSON?.error || "Failed to remove item from wishlist!"
+                    });
+                }
+            });
+        }
     </script>
 
 </body><!-- End of .page_wrapper -->
