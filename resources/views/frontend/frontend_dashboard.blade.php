@@ -285,6 +285,44 @@
         }
     </script>
 
+    <script type="text/javascript">
+        function addToCompare(property_id) {
+            $.ajax({
+                type: "POST",
+                url: "/add-to-compare/" + property_id,
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    if (data.success) {
+                        toastr.success(data.success);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error:", xhr);
+
+                    if (xhr.status === 401) {
+                        // User is not logged in - Show Toastr error first
+                        toastr.error("Please log in first!");
+
+                        // After 3 seconds, redirect to login page
+                        setTimeout(function() {
+                            window.location.href = "/login";
+                        }, 3000);
+                    } else if (xhr.status === 409) {
+                        // Property already in compare list
+                        toastr.error(xhr.responseJSON.error);
+                    } else {
+                        // General error handling
+                        toastr.error("Something went wrong! Please try again.");
+                    }
+                }
+            });
+        }
+    </script>
+
+
 </body><!-- End of .page_wrapper -->
 
 </html>
