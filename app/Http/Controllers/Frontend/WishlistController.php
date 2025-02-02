@@ -27,7 +27,7 @@ class WishlistController extends Controller
     {
         if (!Auth::check()) {
             return response()->json([
-                'error' => 'Unauthorized access! Please log in to view your wishlist.'
+                'error' => 'Please log in to view your wishlist.'
             ], 401);
         }
 
@@ -70,7 +70,7 @@ class WishlistController extends Controller
         } else {
             return response()->json([
                 'error' => 'This property is already in your wishlist!'
-            ]);
+            ], 409);
         }
     } // End Method
 

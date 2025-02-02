@@ -139,30 +139,28 @@
                 dataType: 'json',
                 url: "/add-to-wishList/" + property_id,
                 success: function(data) {
-                    // Start Message 
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-
-                        showConfirmButton: false,
-                        timer: 3000
-                    })
-                    if ($.isEmptyObject(data.error)) {
-
-                        Toast.fire({
-                            type: 'success',
-                            icon: 'success',
-                            title: data.success,
-                        })
-                    } else {
-
-                        Toast.fire({
-                            type: 'error',
-                            icon: 'error',
-                            title: data.error,
-                        })
+                    if (data.success) {
+                        toastr.success(data.success);
                     }
-                    // End Message  
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error:", xhr);
+
+                    if (xhr.status === 401) {
+                        // User is not logged in - Show Toastr error first
+                        toastr.error("Please log in first!");
+
+                        // After 3 seconds, redirect to login page
+                        setTimeout(function() {
+                            window.location.href = "/login";
+                        }, 3000);
+                    } else if (xhr.status === 409) {
+                        // Property already in wishlist
+                        toastr.error(xhr.responseJSON.error);
+                    } else {
+                        // General error handling
+                        toastr.error("Something went wrong! Please try again.");
+                    }
                 }
             })
         }
