@@ -228,11 +228,16 @@
                 })
                 .fail(function(xhr, status, error) {
                     console.error("Error fetching wishlist:", error);
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Failed to load your wishlist. Please try again later!",
-                    });
+
+                    if (xhr.status === 401) {
+                        // User is not logged in, hide wishlist and show message instead of alert
+                        $('#wishlist').html(
+                            `<p class="text-center text-danger">Please log in to view your wishlist.</p>`);
+                        $('#wishQty').text(0); // Reset wish quantity
+                    } else {
+                        // Show error only for actual server issues (not login-related)
+                        toastr.error("Failed to load your wishlist. Please try again later!");
+                    }
                 });
         }
 
