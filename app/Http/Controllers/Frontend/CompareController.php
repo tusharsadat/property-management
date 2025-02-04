@@ -34,4 +34,24 @@ class CompareController extends Controller
     {
         return view('frontend.dashboard.compare');
     } // End Method 
+
+    public function GetCompareProperty()
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'error' => 'Please log in to view your compare list.'
+            ], 401);
+        }
+
+        $compare = Compare::with('property')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'compare' => $compare,
+            'compareCount' => $compare->count(),
+            'success' => 'Compare list retrieved successfully!'
+        ]);
+    } // End Method
 }

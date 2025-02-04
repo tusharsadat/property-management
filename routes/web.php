@@ -190,4 +190,5 @@ Route::controller(WishlistController::class)->group(function () {
 Route::controller(CompareController::class)->group(function () {
     Route::get('/user/compare', 'UserCompare')->name('user.compare');
     Route::post('/add-to-compare/{property_id}', 'AddToCompare');
+    Route::get('/get-compare-property', 'GetCompareProperty');
 });

@@ -324,7 +324,86 @@
             });
         }
     </script>
+    <script type="text/javascript">
+        function compare() {
+            $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "/get-compare-property/",
+                })
+                .done(function(response) {
+                    // Update compare list Quantity
+                    $('#compareCount').text(response.compareCount);
 
+                    // Check if compare list is empty
+                    if (response.compare.length === 0) {
+                        $('#compare').html(`<p class="text-center text-muted">Your compare list is empty.</p>`);
+                        return;
+                    }
+
+                    // Build compare list Items
+                    let compareLists = response.compare.map(item => `
+                    <tr>
+                    <td>Image</td>
+                    <td class="property-image">
+                        <img src="/${item.property.property_thambnail}" alt="${item.property.property_name}" class="img-fluid" style="max-height: 100px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td class="property-title">${item.property.property_name}</td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td class="property-price">$${item.property.lowest_price}</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>${item.property.city}</td>
+                </tr>
+                <tr>
+                    <td>Area</td>
+                    <td>${item.property.property_size} Sq Ft</td>
+                </tr>
+                <tr>
+                    <td>Bedrooms</td>
+                    <td>${item.property.bedrooms}</td>
+                </tr>
+                <tr>
+                    <td>Bathrooms</td>
+                    <td>${item.property.bathrooms}</td>
+                </tr>
+                <tr>
+                    <td>Actions</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="removeCompare(${item.id})">
+                            <i class="fa fa-trash"></i> Remove
+                        </button>
+                    </td>
+                </tr>
+                `).join('');
+
+                    // Update Wishlist UI
+                    $('#compare').html(compareLists);
+                })
+                .fail(function(xhr, status, error) {
+                    console.error("Error fetching compare:", error);
+
+                    if (xhr.status === 401) {
+                        // User is not logged in, hide compare and show message instead of alert
+                        $('#compare').html(
+                            `<p class="text-center text-danger">Please log in to view your compare list.</p>`);
+                        $('#compareCount').text(0); // Reset wish quantity
+                    } else {
+                        // Show error only for actual server issues (not login-related)
+                        toastr.error("Failed to load your compare list. Please try again later!");
+                    }
+                });
+        }
+
+        // Load the compare list on page load
+        compare();
+    </script>
 
 </body><!-- End of .page_wrapper -->
 

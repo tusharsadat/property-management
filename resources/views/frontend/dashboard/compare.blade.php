@@ -1,5 +1,40 @@
 @extends('frontend.frontend_dashboard')
 @section('main')
+    <style>
+        .comparison-table {
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .property-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+        }
+
+        .property-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .property-price {
+            font-size: 1rem;
+            color: #28a745;
+        }
+
+        .comparison-header {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+    </style>
     <!--Page Title-->
     <section class="page-title-two bg-color-1 centred">
         <div class="pattern-layer">
@@ -20,61 +55,18 @@
     </section>
     <!--End Page Title-->
     <!-- properties-section -->
-    <section class="properties-section centred">
-        <div class="auto-container">
-            <div class="table-outer">
-                <table class="properties-table">
-                    <thead class="table-header">
+    <section>
+        <div class="container my-5">
+            <div class="comparison-table table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <th>Property Info</th>
-                            <th>
-                                <figure class="image-box"><img src="{{ asset('assets/images/resource/table-img-1.jpg') }}"
-                                        alt="">
-                                </figure>
-                                <div class="title">Villa on Grand Avenue</div>
-                                <div class="price">$45,000.00</div>
-                            </th>
-
-
+                            <th>Features</th>
+                            <th>Property Details</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <p>City</p>
-                            </td>
-                            <td>
-                                <p>New York</p>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>Area</p>
-                            </td>
-                            <td>
-                                <p>2410 Sq Ft</p>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>Rooms</p>
-                            </td>
-                            <td>
-                                <p>5</p>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>Bathrooms</p>
-                            </td>
-                            <td>
-                                <p>4</p>
-                            </td>
-
-                        </tr>
+                    <tbody id="compare">
+                        <!-- Compare list items will be dynamically inserted here by JavaScript -->
                     </tbody>
                 </table>
             </div>
