@@ -29,4 +29,9 @@ class CompareController extends Controller
 
         return response()->json(['success' => 'Successfully added to your compare list.'], 201);
     } //End method
+
+    public function UserCompare()
+    {
+        return view('frontend.dashboard.compare');
+    } // End Method 
 }

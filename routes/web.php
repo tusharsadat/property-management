@@ -186,5 +186,8 @@ Route::controller(WishlistController::class)->group(function () {
     Route::delete('/wishlist-remove/{id}', 'WishlistRemove');
 });
 
-// Compare Add Route 
-Route::post('/add-to-compare/{property_id}', [CompareController::class, 'AddToCompare']);
+// User Compare All Route 
+Route::controller(CompareController::class)->group(function () {
+    Route::get('/user/compare', 'UserCompare')->name('user.compare');
+    Route::post('/add-to-compare/{property_id}', 'AddToCompare');
+});
