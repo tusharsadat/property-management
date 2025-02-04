@@ -54,4 +54,23 @@ class CompareController extends Controller
             'success' => 'Compare list retrieved successfully!'
         ]);
     } // End Method
+    public function CompareRemove($id)
+    {
+        // Check if the user is authenticated
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthorized access. Please log in first.'], 401);
+        }
+
+        // Find the Compare entry
+        $compareItem = Compare::where('user_id', Auth::id())->where('id', $id)->first();
+
+        if (!$compareItem) {
+            return response()->json(['error' => 'Property not found in your compare list.'], 404);
+        }
+
+        // Delete the item
+        $compareItem->delete();
+
+        return response()->json(['success' => 'Successfully removed the property from your compare list.'], 200);
+    }
 }

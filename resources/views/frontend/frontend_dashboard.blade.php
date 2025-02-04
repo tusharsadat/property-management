@@ -403,7 +403,52 @@
 
         // Load the compare list on page load
         compare();
+
+        // Wishlist Remove Function
+        function removeCompare(compareId) {
+            $.ajax({
+                type: "DELETE", // Use DELETE HTTP method
+                url: "/compare-remove/" + compareId,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Add CSRF token for Laravel
+                },
+                success: function(response) {
+                    // Success Toast Notification
+                    toastr.success(response.success, 'Success', {
+                        timeOut: 3000
+                    });
+
+                    // Optionally refresh the compare list
+                    compare(); // Call your compare function to reload the list
+                },
+                error: function(xhr) {
+                    // Handle Unauthorized (401) Error
+                    if (xhr.status === 401) {
+                        toastr.error('Please log in to perform this action.', 'Unauthorized', {
+                            timeOut: 3000
+                        });
+                        // Redirect to the login page
+                        setTimeout(() => {
+                            window.location.href = "/login";
+                        }, 3000);
+                    }
+                    // Handle Not Found (404) Error
+                    else if (xhr.status === 404) {
+                        toastr.error('The property was not found in your compare list.', 'Not Found', {
+                            timeOut: 3000
+                        });
+                    }
+                    // Handle Other Errors
+                    else {
+                        toastr.error('Something went wrong. Please try again later.', 'Error', {
+                            timeOut: 3000
+                        });
+                    }
+                }
+            });
+        }
     </script>
+
 
 </body><!-- End of .page_wrapper -->
 
