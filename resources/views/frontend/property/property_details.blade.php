@@ -267,7 +267,8 @@
                                     @endphp
                                 @endauth
 
-                                <form action="{{ route('property.message') }}" method="post" class="default-form">
+                                <form id="propertyMessageForm" action="{{ route('property.message') }}" method="post"
+                                    class="default-form">
                                     @csrf
 
                                     <input type="hidden" name="property_id" value="{{ $property->id }}">

@@ -448,6 +448,44 @@
             });
         }
     </script>
+    {{-- Use jQuery to handle property Message Form submission via AJAX. --}}
+    <script>
+        $(document).ready(function() {
+            $('#propertyMessageForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Collect form data
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    url: "{{ route('property.message') }}", // Laravel route for form submission
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            // Show Toastr success alert
+                            toastr.success(response.message);
+                            // Reset the form
+                            $('#propertyMessageForm')[0].reset();
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 401) {
+                            // Show Toastr error alert for unauthenticated users
+                            toastr.error('Please login to send a message.');
+                        } else if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            // Show validation errors in Toastr
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                toastr.error(value[0]);
+                            });
+                        } else {
+                            toastr.error('Something went wrong! Please try again.');
+                        }
+                    },
+                });
+            });
+        });
+    </script>
 
 
 </body><!-- End of .page_wrapper -->

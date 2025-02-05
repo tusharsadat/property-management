@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Property;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\PropertyMessage;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
@@ -39,4 +41,42 @@ class IndexController extends Controller
             'relatedProperty' => $relatedProperty,
         ]);
     } // End Method 
+    public function PropertyMessage(Request $request)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'property_id' => 'required|exists:properties,id',
+            'agent_id' => 'required|exists:users,id',
+            'msg_name' => 'required|string|max:255',
+            'msg_email' => 'required|email|max:255',
+            'msg_phone' => 'required|string|max:15',
+            'message' => 'required|string|max:1000',
+        ]);
+
+        // Check if the user is authenticated
+        if (Auth::check()) {
+            // Create a new property message
+            PropertyMessage::create([
+                'user_id' => Auth::id(),
+                'agent_id' => $request->agent_id,
+                'property_id' => $request->property_id,
+                'msg_name' => $request->msg_name,
+                'msg_email' => $request->msg_email,
+                'msg_phone' => $request->msg_phone,
+                'message' => $request->message,
+            ]);
+
+            // Return a JSON success response
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Message sent successfully!',
+            ]);
+        }
+
+        // Return a JSON error response
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Please login to send a message.',
+        ], 401);
+    }
 }
