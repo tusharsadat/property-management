@@ -193,3 +193,6 @@ Route::controller(CompareController::class)->group(function () {
     Route::get('/get-compare-property', 'GetCompareProperty');
     Route::delete('/compare-remove/{id}', 'CompareRemove');
 });
+
+// Send Message from Property Details Page 
+Route::post('/property/message', [IndexController::class, 'PropertyMessage'])->name('property.message');
