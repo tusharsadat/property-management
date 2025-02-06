@@ -11,6 +11,7 @@ use App\Models\Amenities;
 use App\Models\MultiImage;
 use App\Models\PropertyType;
 use Illuminate\Http\Request;
+use App\Models\PropertyMessage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManager;
@@ -460,5 +461,12 @@ class PropertyController extends Controller
                 'alert-type' => 'error',
             ]);
         }
-    }
+    } // End Method 
+    public function AdminPropertyMessage()
+    {
+
+        $usermsg = PropertyMessage::latest()->get();
+        return view('backend.message.all_message', compact('usermsg'));
+    } // End Method  
+
 }
