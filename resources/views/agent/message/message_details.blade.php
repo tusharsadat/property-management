@@ -92,7 +92,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Customer Phone : </th>
-                                                    <td>{{ $messageDetails['user']['phone'] }}</td>
+                                                    <td>{{ $messageDetails->msg_phone }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Property Name : </th>

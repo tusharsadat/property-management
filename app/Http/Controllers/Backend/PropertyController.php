@@ -468,5 +468,14 @@ class PropertyController extends Controller
         $usermsg = PropertyMessage::latest()->get();
         return view('backend.message.all_message', compact('usermsg'));
     } // End Method  
+    public function PropertyMessageDetails($messageId)
+    {
+        // Fetch all messages in descending order
+        $userMessages = PropertyMessage::latest()->get();
 
+        // Fetch the specific message details
+        $messageDetails = PropertyMessage::findOrFail($messageId);
+
+        return view('backend.message.message_details', compact('userMessages', 'messageDetails'));
+    }
 }
