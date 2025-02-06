@@ -4,20 +4,21 @@ namespace App\Http\Controllers\Agent;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Package;
 use App\Models\Facility;
 use App\Models\Property;
 use App\Models\Amenities;
 use App\Models\MultiImage;
+use App\Models\PackagePlan;
 use App\Models\PropertyType;
 use Illuminate\Http\Request;
+use App\Models\PropertyMessage;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
-use App\Models\Package;
-use App\Models\PackagePlan;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class AgentPropertyController extends Controller
 {
@@ -535,5 +536,11 @@ class AgentPropertyController extends Controller
                 'alert-type' => 'error',
             ]);
         }
-    }
+    } // End Method 
+    public function AgentPropertyMessage()
+    {
+        $id = Auth::id();
+        $usermsg = PropertyMessage::where('agent_id', $id)->get();
+        return view('agent.message.all_message', compact('usermsg'));
+    } // End Method  
 }
