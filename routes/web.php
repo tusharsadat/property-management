@@ -179,6 +179,9 @@ Route::middleware(['auth', 'role:agent'])->group(function () {
 // Frontend Property Details All Route 
 Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDetails']);
 
+// Agent Details Page in Frontend 
+Route::get('/agent/details/{id}', [IndexController::class, 'AgentDetails'])->name('agent.details');
+
 // Wishlist Add Route 
 Route::post('/add-to-wishList/{property_id}', [WishlistController::class, 'AddToWishList']);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\User;
 use App\Models\Property;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -78,5 +79,10 @@ class IndexController extends Controller
             'status' => 'error',
             'message' => 'Please login to send a message.',
         ], 401);
-    }
+    } // End Method 
+    public function AgentDetails($id)
+    {
+        $agent = User::findOrFail($id);
+        return view('frontend.agent.agent_details', compact('agent'));
+    } // End Method 
 }
