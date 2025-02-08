@@ -84,6 +84,7 @@ class IndexController extends Controller
     {
         $agent = User::findOrFail($id);
         $property = Property::where('agent_id', $id)->get();
-        return view('frontend.agent.agent_details', compact('agent', 'property'));
+        $featured = Property::where('featured', '1')->limit(3)->get();
+        return view('frontend.agent.agent_details', compact('agent', 'property', 'featured'));
     } // End Method 
 }
